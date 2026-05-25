@@ -1,0 +1,129 @@
+@use '@/assets/styles/functions.scss' as f;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+// VARIABLES
+
+// / Colors:
+// // Neutrals:
+$white: 0 0% 100%;
+$black: 0 0% 0%;
+
+$blue: 186 64% 52%;
+$yellow: 41 88% 71%;
+$dull-blue: 196 62% 15%;
+$dull-yellow: 78 20% 17%;
+$dark-blue: 231 67% 9%;
+
+$grey-blue: 210 27% 44%;
+
+// Gradients:
+
+$gradient-1: hsl($blue), hsl($yellow);
+$gradient-2: hsl($dull-blue), hsl($dull-yellow);
+
+// TYPOGRAPHY
+
+$font-1: (
+  font-size: f.rem(56),
+  font-weight: 800,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-1-5: (
+  font-size: f.rem(48),
+  font-weight: 800,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-2: (
+  font-size: f.rem(40),
+  font-weight: 800,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-2-5: (
+  font-size: f.rem(32),
+  font-weight: 800,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-3: (
+  font-size: f.rem(24),
+  font-weight: 800,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-4: (
+  font-size: f.rem(20),
+  font-weight: 800,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-5: (
+  font-size: f.rem(16),
+  font-weight: 500,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-6: (
+  font-size: f.rem(12),
+  font-weight: 500,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-7: (
+  font-size: f.rem(8),
+  font-weight: 500,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-8: (
+  font-size: f.rem(6),
+  font-weight: 500,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-5-bold: (
+  font-size: f.rem(16),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-6-bold: (
+  font-size: f.rem(12),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-7-bold: (
+  font-size: f.rem(8),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+$font-8-bold: (
+  font-size: f.rem(6),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: em(10),
+);
+
+// Spacing:
+
+$spacing-0100: f.em(8);
+$spacing-0200: f.em(16);
+$spacing-0300: f.em(24);
+$spacing-0500: f.em(40);

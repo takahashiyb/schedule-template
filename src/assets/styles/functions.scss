@@ -39,9 +39,9 @@
   $mobile,
   $tablet,
   $desktop,
-  $min-vw: map.get($breakpoints, 'mobile'),
-  $mid-vw: map.get($breakpoints, 'tablet'),
-  $max-vw: map.get($breakpoints, 'desktop')
+  $min-vw: map.get($breakpoints, 'xs'),
+  $mid-vw: map.get($breakpoints, 'md'),
+  $max-vw: map.get($breakpoints, 'lg')
 ) {
   font-size: fluid(map.get($mobile, font-size), map.get($tablet, font-size), $min-vw, $mid-vw);
 
@@ -76,4 +76,19 @@
       calc((min(100% - ($space-lr * 2), $max-width) - ($col-count) * $space-gap) / $col-count)
     )
     1fr;
+}
+
+$breakpoints: (
+  'xs': em(320),
+  'sm': em(600),
+  'md': em(960),
+  'lg': em(1280),
+  'xl': em(1920),
+  'xxl': em(2560),
+);
+
+@mixin breakpoint($size) {
+  @media (width >= map.get($breakpoints, $size)) {
+    @content;
+  }
 }
