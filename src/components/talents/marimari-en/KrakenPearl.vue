@@ -11,7 +11,7 @@
 }
 
 .decoration.left > * {
-  --top-left: 50%;
+  --top-left: 45%;
 
   left: 0;
 }
