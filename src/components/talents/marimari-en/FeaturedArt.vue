@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getMonthShortDate } from '@/utils/dates.ts'
 import BannerTextbox from './BannerTextbox.vue'
 import KrakenPearl from './KrakenPearl.vue'
 
@@ -9,18 +10,15 @@ interface Image {
 
 interface Schedule {
   time: string
+  timezone: string
 }
 
 const props = defineProps<{
   image: Image
   first: Schedule
   last?: Schedule
+  designer: string
 }>()
-
-function getDate(time: string) {
-  const date = new Date(time)
-  return date.toLocaleDateString('en-US', { month: 'short', day: '2-digit' }).toUpperCase()
-}
 </script>
 <template>
   <div class="container__featured">
@@ -32,12 +30,16 @@ function getDate(time: string) {
     <KrakenPearl class="border right first" />
     <KrakenPearl class="border right second" />
     <BannerTextbox class="left blue banner banner--first"
-      >{{ getDate(props.first.time)
-      }}{{ props.last!.time !== undefined ? ` - ${getDate(props.last!.time)}` : '' }}</BannerTextbox
+      >{{ getMonthShortDate(props.first.time, props.first.timezone).toUpperCase()
+      }}{{
+        props.last!.time !== undefined
+          ? ` - ${getMonthShortDate(props.last!.time, props.last!.timezone).toUpperCase()}`
+          : ''
+      }}</BannerTextbox
     >
     <BannerTextbox class="right blue banner banner--first">Art Tag: #MariArti</BannerTextbox>
     <BannerTextbox class="left banner banner--second">MariMari_EN</BannerTextbox>
-    <BannerTextbox class="right banner banner--second">Design: Feya-kun </BannerTextbox>
+    <BannerTextbox class="right banner banner--second">Design: {{ designer }} </BannerTextbox>
     <div class="text-shadow"></div>
     <img class="gate-top" src="/src/assets/icons/marimari-en/gate-top.svg" alt="" />
     <img class="gate-bottom" src="/src/assets/icons/marimari-en/gate-bottom.svg" alt="" />
@@ -54,7 +56,7 @@ function getDate(time: string) {
 
 .container__featured {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 33% 34% 33%;
   grid-template-rows: 10fr repeat(4, 1fr);
   row-gap: 1%;
   position: relative;

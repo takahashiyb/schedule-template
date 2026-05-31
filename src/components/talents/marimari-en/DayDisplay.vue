@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import BannerTextbox from './BannerTextbox.vue'
+import { getDayWeek, getTime } from '@/utils/dates.ts'
 
 interface Schedule {
   special: boolean
@@ -14,18 +15,12 @@ const props = defineProps<{
   schedule: Schedule
 }>()
 
-const date = ref(new Date(props.schedule.time))
-
 const dayWeek = computed(() => {
-  return date.value.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()
+  return getDayWeek(props.schedule.time, props.schedule.timezone).toUpperCase()
 })
 
 const time = computed(() => {
-  return date.value.toLocaleTimeString('en-US', {
-    timeZone: props.schedule.timezone, // PDT/PST auto handled
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+  return getTime(props.schedule.time, props.schedule.timezone).toUpperCase()
 })
 </script>
 <template>

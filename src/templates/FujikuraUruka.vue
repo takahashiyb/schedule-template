@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import DayDisplay from '@/components/talents/fujikura-uruka/DayDisplay.vue'
+import { setBg } from '@/utils/background'
+import { getDate, getMonthShort } from '@/utils/dates'
 import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 
 const schedule = [
   {
@@ -54,10 +56,6 @@ const schedule = [
   },
 ]
 
-function setBg(color: string) {
-  document.body.style.backgroundColor = color
-}
-
 const artist = '1guy'
 
 const timezone = 'PT'
@@ -67,19 +65,16 @@ const tag = 'Urukart'
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
 // optional: set default background when component mounts
+
+const background = 'hsl(231, 67%, 9%)'
+
 onMounted(() => {
-  setBg('hsl(231, 67%, 9%)')
+  setBg(background)
 })
 
-function getDate(time: string) {
-  const date = new Date(time)
-  return date.toLocaleDateString('en-US', { day: '2-digit' }).toUpperCase()
-}
-
-function getMonth(time: string) {
-  const date = new Date(time)
-  return date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
-}
+onUnmounted(() => {
+  setBg('hsl(0, 0%, 100%)')
+})
 </script>
 <template>
   <section class="display" :class="{ large: breakpoints.greater('md').value }">
@@ -127,16 +122,16 @@ function getMonth(time: string) {
           />
         </svg>
         <div v-for="date in schedule.filter((_, index) => index === 0)" :key="date.title">
-          <p>{{ getDate(date.time) }}</p>
-          <p>{{ getMonth(date.time) }}</p>
+          <p>{{ getDate(date.time, date.timezone) }}</p>
+          <p>{{ getMonthShort(date.time, date.timezone).toUpperCase() }}</p>
         </div>
         <hr />
         <div
           v-for="date in schedule.filter((_, index) => index === schedule.length - 1)"
           :key="date.title"
         >
-          <p>{{ getDate(date.time) }}</p>
-          <p>{{ getMonth(date.time) }}</p>
+          <p>{{ getDate(date.time, date.timezone) }}</p>
+          <p>{{ getMonthShort(date.time, date.timezone).toUpperCase() }}</p>
         </div>
       </div>
       <p class="weekly">

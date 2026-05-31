@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getDate, getDayWeek, getTime } from '@/utils/dates'
 import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
 import { computed, ref } from 'vue'
 
@@ -28,22 +29,16 @@ const dayoff = ref(props.schedule.dayoff)
 
 const dayoffMessage = 'BEAR BUSINESS'
 
-const date = ref(new Date(props.schedule.time))
-
 const time = computed(() => {
-  return date.value.toLocaleTimeString('en-US', {
-    timeZone: props.schedule.timezone, // PDT/PST auto handled
-    hour: '2-digit',
-    minute: '2-digit',
-  })
+  return getTime(props.schedule.time, props.schedule.timezone).toUpperCase()
 })
 
 const day = computed(() => {
-  return date.value.toLocaleDateString('en-US', { day: '2-digit' })
+  return getDate(props.schedule.time, props.schedule.timezone)
 })
 
 const dayWeek = computed(() => {
-  return date.value.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase()
+  return getDayWeek(props.schedule.time, props.schedule.timezone).toUpperCase()
 })
 </script>
 <template>
