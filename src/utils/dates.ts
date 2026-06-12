@@ -43,3 +43,22 @@ export function getDayWeek(time: string, timezone: string) {
     weekday: 'short',
   })
 }
+
+export function isWithinSevenDays(date: string) {
+  const targetDate = new Date(date)
+  const now = new Date()
+  const diffMs = Math.abs(targetDate.getTime() - now.getTime()) // difference in milliseconds
+  const diffDays = diffMs / (1000 * 60 * 60 * 24) // convert to days
+  return diffDays <= 7
+}
+
+export function isToday(date: string) {
+  const targetDate = new Date(date)
+  const now = new Date()
+
+  return (
+    targetDate.getFullYear() === now.getFullYear() &&
+    targetDate.getMonth() === now.getMonth() &&
+    targetDate.getDate() === now.getDate()
+  )
+}
