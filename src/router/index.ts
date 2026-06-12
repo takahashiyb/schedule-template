@@ -4,6 +4,7 @@ import GraphicPage from '@/pages/GraphicPage.vue'
 import HomePage from '@/pages/HomePage.vue'
 import TemplatePage from '@/pages/TemplatePage.vue'
 import FujikuraUruka from '@/pages/schedules/FujikuraUruka.vue'
+import GenericView from '@/pages/schedules/GenericView.vue'
 import MariMariEn from '@/pages/schedules/MariMariEn.vue'
 import PipkinPippa from '@/pages/schedules/PipkinPippa.vue'
 import { createRouter, createWebHashHistory } from 'vue-router'
@@ -20,6 +21,7 @@ const router = createRouter({
         { path: '/template/fujikura-uruka', name: 'fujikura-uruka', component: FujikuraUruka },
         { path: '/template/marimari-en', name: 'marimari-en', component: MariMariEn },
         { path: '/template/pipking-pippa', name: 'pipkin-pippa', component: PipkinPippa },
+        { path: '/template/unstyled', name: 'unstyled', component: UnstyledView },
       ],
     },
     {
