@@ -1,0 +1,106 @@
+@use '@/assets/styles/functions.scss' as f;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+// VARIABLES
+
+// / Colors:
+// // Neutrals:
+$white: 0 0% 100%;
+$black: 0 0% 0%;
+
+// // Pinks:
+$hot-pink: 336 73% 66%;
+$base-pink: 15 93% 88%;
+$base-brown: 6 34% 27%;
+$hot-brown: 342 63% 24%;
+
+// // Accents:
+$flesh: 25 86% 95%;
+$powder-blue: 216 51% 85%;
+$lilac: 249 62% 92%;
+$violet: 242 45% 67%;
+
+// TYPOGRAPHY
+
+$font-1: (
+  font-size: f.rem(80),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: 0.2,
+);
+
+$font-2: (
+  font-size: f.rem(56),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: 0.2,
+);
+
+$font-3: (
+  font-size: f.rem(32),
+  font-weight: 400,
+  line-height: 1,
+  letter-spacing: 0.2,
+);
+
+$font-3-b: (
+  font-size: f.rem(32),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: 0.2,
+);
+
+$font-4: (
+  font-size: f.rem(24),
+  font-weight: 400,
+  line-height: 1,
+  letter-spacing: 0.2,
+);
+
+$font-4-b: (
+  font-size: f.rem(24),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: 0.2,
+);
+
+$font-4-eb: (
+  font-size: f.rem(24),
+  font-weight: 800,
+  line-height: 1,
+  letter-spacing: 0.1,
+);
+
+$font-5: (
+  font-size: f.rem(16),
+  font-weight: 400,
+  line-height: 1,
+  letter-spacing: 0,
+);
+
+$font-5-b: (
+  font-size: f.rem(16),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: 0,
+);
+
+$font-5-eb: (
+  font-size: f.rem(16),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: 0.1,
+);
+
+$font-6-eb: (
+  font-size: f.rem(8),
+  font-weight: 700,
+  line-height: 1,
+  letter-spacing: 0.1,
+);
+
+// Spacing:
+
+$spacing-0100: f.em(8);
+$spacing-0200: f.em(16);
+$spacing-0300: f.em(24);
+$spacing-0500: f.em(40);
