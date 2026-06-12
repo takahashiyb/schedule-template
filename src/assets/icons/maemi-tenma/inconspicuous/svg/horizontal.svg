@@ -1,0 +1,87 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g clip-path="url(#clip0_19_395)">
+<rect width="1920" height="1080" fill="#403242"/>
+<rect width="1920" height="1080" fill="url(#pattern0_19_395)" fill-opacity="0.5"/>
+<rect width="1920" height="1080" fill="url(#paint0_radial_19_395)"/>
+<path d="M904.352 1240.29H890.416V957.878H904.352V1240.29ZM1004.69 1240.29H915.501V957.878H1004.69V1240.29ZM1029.78 1240.29H1015.84V957.878H1029.78V1240.29Z" fill="#D6A1CD"/>
+<ellipse cx="959.973" cy="566.081" rx="131.981" ry="100.051" fill="#575D6A"/>
+<path d="M902.381 529.663C949.451 515.221 974.474 515.314 1016.37 529.663V669.734H902.381V529.663Z" fill="#403242"/>
+<path d="M902.381 529.663C949.451 515.221 974.474 515.314 1016.37 529.663V669.734H902.381V529.663Z" fill="url(#pattern1_19_395)"/>
+<mask id="mask0_19_395" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="903" y="585" width="113" height="374">
+<path d="M1008.43 585.412C1013.16 604.767 1015.97 628.605 1015.97 656.928L959.973 958.28L903.981 656.928C903.981 628.605 906.789 604.766 911.514 585.412C934.33 631.98 956.32 674.136 959.973 674.136C963.627 674.135 985.616 631.979 1008.43 585.412Z" fill="#F2D7AC"/>
+</mask>
+<g mask="url(#mask0_19_395)">
+<path d="M959.973 958.28L1015.97 656.928C1015.97 478.037 903.981 478.037 903.981 656.928L959.973 958.28Z" fill="#F2D7AC"/>
+<g filter="url(#filter0_d_19_395)">
+<path d="M959.973 732.566C967.972 732.566 1063.88 530.463 1063.88 522.459H856.064C856.064 530.463 951.974 732.566 959.973 732.566Z" fill="#F2D7AC"/>
+</g>
+</g>
+<path d="M928.498 723.261L944.244 621.686L959.799 603.526L975.407 621.002L990.824 721.893L959.054 761.602L928.498 723.261Z" fill="white"/>
+<path d="M934.965 602.171C932.44 592.072 940.078 582.29 950.487 582.29H969.513C979.922 582.29 987.56 592.071 985.036 602.17L983.034 610.177C981.254 617.3 974.854 622.297 967.512 622.297H952.489C945.148 622.297 938.748 617.3 936.967 610.178L934.965 602.171Z" fill="white"/>
+<path d="M959.533 583.55L959.534 520.345L1051.95 554.922L999.191 617.194L959.533 583.55Z" fill="#403242"/>
+<path d="M959.533 583.55L959.534 520.345L1051.95 554.922L999.191 617.194L959.533 583.55Z" fill="url(#pattern2_19_395)"/>
+<path d="M959.606 583.55L959.606 520.345L867.186 554.922L919.948 617.194L959.606 583.55Z" fill="#403242"/>
+<path d="M959.606 583.55L959.606 520.345L867.186 554.922L919.948 617.194L959.606 583.55Z" fill="url(#pattern3_19_395)"/>
+<mask id="mask1_19_395" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="827" y="466" width="265" height="201">
+<ellipse cx="959.973" cy="566.081" rx="131.981" ry="100.051" fill="#676A71"/>
+</mask>
+<g mask="url(#mask1_19_395)">
+<path d="M959.973 516.056C1032.86 516.056 1091.95 560.85 1091.95 616.107C1091.95 658.816 1056.65 695.275 1006.96 709.63L1015.97 661.981C1015.96 486.09 903.981 486.09 903.981 661.981L912.985 709.63C863.294 695.275 827.992 658.816 827.991 616.107C827.991 560.85 887.082 516.056 959.973 516.056Z" fill="#A692A1"/>
+</g>
+<path d="M959.973 426.01C1054.95 426.01 1131.95 488.722 1131.95 566.082C1131.95 629.896 1079.55 683.741 1007.89 700.64L1016.07 656.67C1060.91 640.686 1091.95 606.133 1091.95 566.082C1091.95 510.825 1032.86 466.031 959.973 466.031C887.082 466.031 827.991 510.825 827.991 566.082C827.991 606.133 859.036 640.686 903.878 656.67L912.056 700.64C840.393 683.741 787.997 629.896 787.997 566.082C787.997 488.723 864.993 426.01 959.973 426.01Z" fill="#D6A1CD"/>
+<path d="M1059.96 672.935L1004.97 958.28H959.973L1013.04 672.935H1059.96ZM906.903 672.935L959.973 958.28H915.38L859.987 672.935H906.903Z" fill="#D6A1CD"/>
+<path d="M959.973 406C1066 406 1151.95 477.671 1151.95 566.081C1151.95 622.028 1117.53 671.271 1065.38 699.892L1067.88 686.932C1112.81 659.604 1141.95 615.65 1141.95 566.081C1141.95 483.196 1060.47 416.005 959.973 416.005C859.471 416.005 777.998 483.196 777.998 566.081C777.998 615.637 807.124 659.58 852.026 686.909L854.506 699.86C802.394 671.236 768 622.008 768 566.081C768 477.671 853.949 406 959.973 406Z" fill="#D6A1CD"/>
+<path d="M904.38 958.28H890.382L839.99 689.744H852.464L904.38 958.28ZM1029.96 958.28H1015.97L1067.5 689.744H1079.96L1029.96 958.28Z" fill="#D6A1CD"/>
+<ellipse cx="959.973" cy="557.477" rx="29.9958" ry="25.0127" fill="#403242"/>
+<ellipse cx="959.973" cy="557.477" rx="29.9958" ry="25.0127" fill="url(#pattern4_19_395)"/>
+<ellipse cx="959.973" cy="557.477" rx="29.9958" ry="25.0127" fill="url(#paint1_linear_19_395)"/>
+<path d="M952.374 718.559L959.373 704.552L966.372 718.559L959.373 732.566L952.374 718.559Z" fill="#D6A1CD"/>
+<path d="M960.38 458.958C1037.12 458.958 1099.33 506.873 1099.33 565.978C1099.33 610.266 1064.4 648.27 1014.6 664.542L1016.07 656.67C1060.91 640.685 1091.95 606.132 1091.95 566.081C1091.95 510.825 1032.86 466.03 959.973 466.03C887.082 466.03 827.992 510.825 827.991 566.081C827.991 606.132 859.036 640.685 903.878 656.67L905.289 664.255C855.955 647.827 821.431 610.009 821.431 565.978C821.431 506.872 883.641 458.958 960.38 458.958Z" fill="#403242"/>
+<path d="M1021.24 658.648L967.046 958.28H959.973L1015.7 658.648H1021.24ZM904.246 658.648L959.973 958.28H953.15L898.603 658.648H904.246Z" fill="#403242"/>
+<path d="M1067.05 290.115C1058.66 298.173 1039.88 307.445 1030.12 297.281C1020.37 287.117 1030.41 268.735 1038.81 260.677C1047.21 252.619 1065.83 243.62 1075.52 253.719C1085.21 263.817 1075.45 282.057 1067.05 290.115Z" fill="#E66784"/>
+<path d="M852.591 290.115C860.988 298.173 879.769 307.445 889.522 297.281C899.275 287.117 889.235 268.735 880.838 260.677C872.44 252.619 853.813 243.62 844.124 253.719C834.434 263.817 844.193 282.057 852.591 290.115Z" fill="#E66784"/>
+</g>
+<defs>
+<filter id="filter0_d_19_395" x="852.064" y="522.459" width="215.817" height="238.107" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="24"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_19_395"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_19_395" result="shape"/>
+</filter>
+<radialGradient id="paint0_radial_19_395" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(960 540) rotate(90) scale(991.44 3013.04)">
+<stop offset="0.509615" stop-color="#403242"/>
+<stop offset="1" stop-color="#403242" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="paint1_linear_19_395" x1="959.973" y1="532.464" x2="959.973" y2="582.489" gradientUnits="userSpaceOnUse">
+<stop stop-opacity="0"/>
+<stop offset="1"/>
+</linearGradient>
+<clipPath id="clip0_19_395">
+<rect width="1920" height="1080" fill="white"/>
+</clipPath>
+<pattern id="pattern0_19_395" patternUnits="userSpaceOnUse" patternTransform="matrix(35 0 0 547 0 0)" preserveAspectRatio="none" viewBox="0 0 35 547" width="1" height="1">
+<g id="pattern0_19_395_inner">
+<rect width="5" height="547" fill="#D9D9D9"/>
+</g>
+</pattern><pattern id="pattern1_19_395" patternUnits="userSpaceOnUse" patternTransform="matrix(17.5 0 0 273.5 902.381 515.221)" preserveAspectRatio="none" viewBox="0 0 35 547" width="1" height="1">
+<g id="pattern1_19_395_inner">
+<rect width="5" height="547" fill="#D9D9D9"/>
+</g>
+</pattern><pattern id="pattern2_19_395" patternUnits="userSpaceOnUse" patternTransform="matrix(11.3126 -13.3519 208.559 176.934 928.377 557.118)" preserveAspectRatio="none" viewBox="0 0 35 547" width="1" height="1">
+<g id="pattern2_19_395_inner">
+<rect width="5" height="547" fill="#D9D9D9"/>
+</g>
+</pattern><pattern id="pattern3_19_395" patternUnits="userSpaceOnUse" patternTransform="matrix(-11.3126 -13.3519 -208.559 176.934 990.762 557.118)" preserveAspectRatio="none" viewBox="0 0 35 547" width="1" height="1">
+<g id="pattern3_19_395_inner">
+<rect width="5" height="547" fill="#D9D9D9"/>
+</g>
+</pattern><pattern id="pattern4_19_395" patternUnits="userSpaceOnUse" patternTransform="matrix(17.5 0 0 273.5 929.977 532.464)" preserveAspectRatio="none" viewBox="0 0 35 547" width="1" height="1">
+<g id="pattern4_19_395_inner">
+<rect width="5" height="547" fill="#D9D9D9"/>
+</g>
+</pattern></defs>
+</svg>

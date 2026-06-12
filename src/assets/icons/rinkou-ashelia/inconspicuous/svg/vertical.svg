@@ -1,0 +1,65 @@
+<svg width="1200" height="1500" viewBox="0 0 1200 1500" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g clip-path="url(#clip0_8_61)">
+<rect width="1200" height="1500" fill="white"/>
+<path d="M0 1700L1200 1300V1500L0 1900V1700Z" fill="url(#paint0_linear_8_61)"/>
+<path d="M0 1400L1200 1000V1300L0 1700V1400Z" fill="#D14399"/>
+<path d="M0 1400L1200 1000V1300L0 1700V1400Z" fill="url(#pattern0_8_61)"/>
+<path d="M0 1100L1200 700V1000L0 1400V1100Z" fill="#0D0611"/>
+<path d="M0 1100L1200 700V1000L0 1400V1100Z" fill="url(#pattern1_8_61)"/>
+<path d="M0 900L1200 500V700L0 1100V900Z" fill="#EDE9F6"/>
+<g clip-path="url(#clip1_8_61)">
+<path d="M0 -2H1200V461L0 861V-2Z" fill="#FCE5E3"/>
+<path d="M0 -2H1200V461L0 861V-2Z" fill="url(#pattern2_8_61)"/>
+<rect x="-63" y="712.219" width="1332.6" height="200" transform="rotate(-18.43 -63 712.219)" fill="url(#pattern3_8_61)"/>
+</g>
+</g>
+<defs>
+<linearGradient id="paint0_linear_8_61" x1="600" y1="1321" x2="600" y2="1569" gradientUnits="userSpaceOnUse">
+<stop offset="0.0731538" stop-color="#0D0611"/>
+<stop offset="1" stop-color="#D14399"/>
+</linearGradient>
+<clipPath id="clip0_8_61">
+<rect width="1200" height="1500" fill="white"/>
+</clipPath>
+<clipPath id="clip1_8_61">
+<rect width="1200" height="904" fill="white" transform="translate(0 -2)"/>
+</clipPath>
+<pattern id="pattern0_8_61" patternUnits="userSpaceOnUse" patternTransform="matrix(375 0 0 750 0 1225)" preserveAspectRatio="none" viewBox="0 0 300 600" width="1" height="1">
+<use xlink:href="#pattern0_8_61_inner" transform="translate(-300 0)"/>
+<g id="pattern0_8_61_inner">
+<path d="M70 100L0 170L30 200L100 130L170 200L200 170L130 100L200 30L170 0L100 70L30 0L0 30L70 100Z" fill="#FEC659"/>
+</g>
+<use xlink:href="#pattern0_8_61_inner" transform="translate(-150 300)"/>
+<use xlink:href="#pattern0_8_61_inner" transform="translate(150 300)"/>
+</pattern><pattern id="pattern1_8_61" patternUnits="userSpaceOnUse" patternTransform="matrix(366 0 0 723 450 900)" preserveAspectRatio="none" viewBox="0 0 244 482" width="1" height="1">
+<use xlink:href="#pattern1_8_61_inner" transform="translate(-122 -241)"/>
+<use xlink:href="#pattern1_8_61_inner" transform="translate(0 -482)"/>
+<use xlink:href="#pattern1_8_61_inner" transform="translate(122 -241)"/>
+<use xlink:href="#pattern1_8_61_inner" transform="translate(-122 241)"/>
+<g id="pattern1_8_61_inner">
+<path d="M180 0L125 80L200 90L20 200L75 120L0 110L180 0Z" fill="#D14399"/>
+</g>
+<use xlink:href="#pattern1_8_61_inner" transform="translate(122 241)"/>
+</pattern><pattern id="pattern2_8_61" patternUnits="userSpaceOnUse" patternTransform="matrix(200 0 0 200 0 -2)" preserveAspectRatio="none" viewBox="0 0 200 200" width="1" height="1">
+<g id="pattern2_8_61_inner">
+<path d="M92 82L100 50L108 82L190 0H200V10L118 92L150 100L118 108L200 190V200H190L108 118L100 150L92 118L10 200H0V190L82 108L50 100L82 92L0 10V0H10L92 82ZM99.5 92C95.3579 92 92 95.3579 92 99.5C92 103.642 95.3579 107 99.5 107C103.642 107 107 103.642 107 99.5C107 95.3579 103.642 92 99.5 92Z" fill="#0D0611"/>
+</g>
+</pattern><pattern id="pattern3_8_61" patternUnits="userSpaceOnUse" patternTransform="matrix(200 0 0 200 -63 712.219)" preserveAspectRatio="none" viewBox="0 0 200 200" width="1" height="1">
+<g id="pattern3_8_61_inner">
+<g clip-path="url(#clip2_8_61)">
+<path d="M-5.96046e-06 0C55.2285 0 100 44.7715 100 100C100 155.228 55.2285 200 -5.96046e-06 200C-55.2285 200 -100 155.228 -100 100C-100 44.7715 -55.2285 0 -5.96046e-06 0ZM-5.96046e-06 10C-49.7056 10 -90 50.2944 -90 100C-90 149.706 -49.7056 190 -5.96046e-06 190C49.7056 190 90 149.706 90 100C90 50.2944 49.7056 10 -5.96046e-06 10Z" fill="#0D0611"/>
+<path d="M200 0C255.228 0 300 44.7715 300 100C300 155.228 255.228 200 200 200C144.772 200 100 155.228 100 100C100 44.7715 144.772 0 200 0ZM200 10C150.294 10 110 50.2944 110 100C110 149.706 150.294 190 200 190C249.706 190 290 149.706 290 100C290 50.2944 249.706 10 200 10Z" fill="#0D0611"/>
+<path d="M-2.98023e-06 50C27.6142 50 50 72.3858 50 100C50 127.614 27.6142 150 -2.98023e-06 150C-27.6142 150 -50 127.614 -50 100C-50 72.3858 -27.6142 50 -2.98023e-06 50ZM-2.98023e-06 55C-24.8528 55 -45 75.1472 -45 100C-45 124.853 -24.8528 145 -2.98023e-06 145C24.8528 145 45 124.853 45 100C45 75.1472 24.8528 55 -2.98023e-06 55Z" fill="#0D0611"/>
+<path d="M150 50C177.614 50 200 72.3858 200 100C200 127.614 177.614 150 150 150C122.386 150 100 127.614 100 100C100 72.3858 122.386 50 150 50ZM150 55C125.147 55 105 75.1472 105 100C105 124.853 125.147 145 150 145C174.853 145 195 124.853 195 100C195 75.1472 174.853 55 150 55Z" fill="#0D0611"/>
+<path d="M50 50C77.6142 50 100 72.3858 100 100C100 127.614 77.6142 150 50 150C22.3858 150 0 127.614 0 100C0 72.3858 22.3858 50 50 50ZM50 55C25.1472 55 5 75.1472 5 100C5 124.853 25.1472 145 50 145C74.8528 145 95 124.853 95 100C95 75.1472 74.8528 55 50 55Z" fill="#0D0611"/>
+<path d="M200 50C227.614 50 250 72.3858 250 100C250 127.614 227.614 150 200 150C172.386 150 150 127.614 150 100C150 72.3858 172.386 50 200 50ZM200 55C175.147 55 155 75.1472 155 100C155 124.853 175.147 145 200 145C224.853 145 245 124.853 245 100C245 75.1472 224.853 55 200 55Z" fill="#0D0611"/>
+<path d="M100 50C127.614 50 150 72.3858 150 100C150 127.614 127.614 150 100 150C72.3858 150 50 127.614 50 100C50 72.3858 72.3858 50 100 50ZM100 55C75.1472 55 55 75.1472 55 100C55 124.853 75.1472 145 100 145C124.853 145 145 124.853 145 100C145 75.1472 124.853 55 100 55Z" fill="#0D0611"/>
+<rect y="100" width="200" height="100" fill="#EDE9F6"/>
+<path d="M200 100C200 155.228 155.228 200 100 200C44.7715 200 0 155.228 0 100H200Z" fill="#0D0611"/>
+</g>
+</g>
+</pattern><clipPath id="clip2_8_61">
+<rect width="200" height="200" fill="white"/>
+</clipPath>
+</defs>
+</svg>
