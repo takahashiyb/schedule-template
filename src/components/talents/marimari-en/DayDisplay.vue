@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import BannerTextbox from './BannerTextbox.vue'
 import { getDayWeek, getTime } from '@/utils/dates.ts'
 
@@ -27,16 +27,16 @@ const time = computed(() => {
   <div class="container">
     <div class="decorations" v-if="props.schedule.dayoff">
       <img class="card" src="@/assets/icons/marimari-en/card-banner-dayoff.svg" alt="" />
-      <img class="emblem" src="/src//assets/icons/marimari-en/emblem.svg" alt="" />
+      <img class="emblem" src="@/assets/icons/marimari-en/emblem.svg" alt="" />
     </div>
 
     <div class="decorations" v-else-if="props.schedule.special">
       <img class="card" src="@/assets/icons/marimari-en/card-banner-special.svg" alt="" />
-      <img class="emblem" src="/src//assets/icons/marimari-en/emblem.svg" alt="" />
+      <img class="emblem" src="@/assets/icons/marimari-en/emblem.svg" alt="" />
     </div>
     <div class="decorations" v-else>
       <img class="card" src="@/assets/icons/marimari-en/card-banner.svg" alt="" />
-      <img class="emblem" src="/src//assets/icons/marimari-en/emblem.svg" alt="" />
+      <img class="emblem" src="@/assets/icons/marimari-en/emblem.svg" alt="" />
     </div>
 
     <span class="title" :class="{ special: props.schedule.special }">
@@ -84,6 +84,9 @@ const time = computed(() => {
 .card {
   grid-column: 1/-1;
   grid-row: 1;
+
+  height: 100%;
+  width: 100%;
 }
 
 .emblem {

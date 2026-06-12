@@ -1,8 +1,8 @@
 <script setup lang="ts"></script>
 <template>
   <div class="decoration">
-    <img class="kraken" src="/src/assets/icons//marimari-en/decoration-kraken.svg" alt="" />
-    <img class="pearl" src="/src/assets/icons//marimari-en/decoration-pearl.svg" alt="" />
+    <img class="kraken" src="@/assets/icons//marimari-en/decoration-kraken.svg" alt="" />
+    <img class="pearl" src="@/assets/icons//marimari-en/decoration-pearl.svg" alt="" />
   </div>
 </template>
 <style scoped lang="scss">

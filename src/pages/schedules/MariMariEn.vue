@@ -1,9 +1,9 @@
 <script setup lang="ts">
+import { breakpointsVuetifyV3, useBreakpoints, useScroll } from '@vueuse/core'
+import { onMounted, onUnmounted, useTemplateRef } from 'vue'
 import DayDisplay from '@/components/talents/marimari-en/DayDisplay.vue'
 import FeaturedArt from '@/components/talents/marimari-en/FeaturedArt.vue'
 import { setBg } from '@/utils/background'
-import { breakpointsVuetifyV3, useBreakpoints, useScroll } from '@vueuse/core'
-import { onMounted, onUnmounted, useTemplateRef } from 'vue'
 
 interface Schedule {
   special: boolean
@@ -74,7 +74,7 @@ const schedule: Schedule[] = [
 ]
 
 const featuredArt: { image: string; artist: string } = {
-  image: '/src/assets/icons/fujikura-uruka/fan-logo.svg',
+  image: '@/assets/icons/fujikura-uruka/fan-logo.svg',
   artist: 'azzypics',
 }
 
@@ -100,7 +100,7 @@ onUnmounted(() => {
 </script>
 <template>
   <section class="display" :class="[{ large: breakpoints.greater('md').value }]">
-    <!-- <img class="background-image" src="@/assets/icons/marimari-en/background-mobile.png" alt="" /> -->
+    <img class="background-image" src="@/assets/icons/marimari-en/background-mobile.png" alt="" />
     <img class="background-image" src="@/assets/icons/marimari-en/background-square.png" alt="" />
     <img
       class="corner-decoration corner-decoration--top"
@@ -127,7 +127,7 @@ onUnmounted(() => {
     </div>
     <img
       class="corner-decoration corner-decoration--bottom right"
-      src="/src/assets//icons/marimari-en/page-corner-2.svg"
+      src="@/assets//icons/marimari-en/page-corner-2.svg"
       alt=""
     />
   </section>

@@ -41,10 +41,10 @@ const props = defineProps<{
     <BannerTextbox class="left banner banner--second">MariMari_EN</BannerTextbox>
     <BannerTextbox class="right banner banner--second">Design: {{ designer }} </BannerTextbox>
     <div class="text-shadow"></div>
-    <img class="gate-top" src="/src/assets/icons/marimari-en/gate-top.svg" alt="" />
-    <img class="gate-bottom" src="/src/assets/icons/marimari-en/gate-bottom.svg" alt="" />
-    <img class="emblem border left" src="/src/assets/icons/marimari-en/emblem.svg" alt="" />
-    <img class="emblem border right" src="/src/assets/icons/marimari-en/emblem.svg" alt="" />
+    <img class="gate-top" src="@/assets/icons/marimari-en/gate-top.svg" alt="" />
+    <img class="gate-bottom" src="@/assets/icons/marimari-en/gate-bottom.svg" alt="" />
+    <img class="emblem border left" src="@/assets/icons/marimari-en/emblem.svg" alt="" />
+    <img class="emblem border right" src="@/assets/icons/marimari-en/emblem.svg" alt="" />
     <div class="artist">
       <p>Artist:</p>
       <p>@{{ props.image.artist }}</p>
