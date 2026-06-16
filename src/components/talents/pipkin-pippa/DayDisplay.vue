@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { getDayWeek, getMonthShortDate, getTime, isToday, isWithinSevenDays } from '@/utils/dates'
+import {
+  getDayWeek,
+  getMonthShortDate,
+  getShortTime,
+  isToday,
+  isWithinSevenDays,
+} from '@/utils/dates'
 import { useElementBounding } from '@vueuse/core'
 import { useTemplateRef } from 'vue'
 
@@ -65,7 +71,7 @@ const props = defineProps<{
       getMonthShortDate(props.data.liveStreamingDetails.scheduledStartTime, timezone)
     }}</span>
     <span class="pill time">{{
-      getTime(props.data.liveStreamingDetails.scheduledStartTime, timezone)
+      getShortTime(props.data.liveStreamingDetails.scheduledStartTime, timezone)
     }}</span>
   </div>
 </template>

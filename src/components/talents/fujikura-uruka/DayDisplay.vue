@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getDate, getDayWeek, getTime } from '@/utils/dates'
+import { getDate, getDayWeek, getShortTime } from '@/utils/dates'
 import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
 import { computed, ref } from 'vue'
 
@@ -30,7 +30,7 @@ const dayoff = ref(props.schedule.dayoff)
 const dayoffMessage = 'BEAR BUSINESS'
 
 const time = computed(() => {
-  return getTime(props.schedule.time, props.schedule.timezone).toUpperCase()
+  return getShortTime(props.schedule.time, props.schedule.timezone).toUpperCase()
 })
 
 const day = computed(() => {

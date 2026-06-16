@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import BannerTextbox from './BannerTextbox.vue'
-import { getDayWeek, getTime } from '@/utils/dates.ts'
+import { getDayWeek, getShortTime } from '@/utils/dates.ts'
 
 interface Schedule {
   special: boolean
@@ -20,7 +20,7 @@ const dayWeek = computed(() => {
 })
 
 const time = computed(() => {
-  return getTime(props.schedule.time, props.schedule.timezone).toUpperCase()
+  return getShortTime(props.schedule.time, props.schedule.timezone).toUpperCase()
 })
 </script>
 <template>
