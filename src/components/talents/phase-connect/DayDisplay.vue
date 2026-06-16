@@ -1,11 +1,17 @@
 <script setup lang="ts">
+import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
 import type { DataYoutube } from '@/types/youtube-streaming-list'
 import { getShortTime } from '@/utils/dates'
 
 const props = defineProps<{ event: DataYoutube; timezone: string }>()
+
+const breakpoints = useBreakpoints(breakpointsVuetifyV3)
+
+const medium = breakpoints.greater('sm')
+const large = breakpoints.greater('md')
 </script>
 <template>
-  <div class="time">
+  <div class="time" :class="{ medium: medium, large: large }">
     <p class="time-display">
       {{ getShortTime(props.event.items[0]!.liveStreamingDetails.scheduledStartTime, timezone) }}
     </p>
@@ -14,43 +20,59 @@ const props = defineProps<{ event: DataYoutube; timezone: string }>()
 </template>
 <style scoped lang="scss">
 .time {
-  // padding-inline: 32px;
-  // padding-top: 8px;
-  // padding-bottom: 8px;
+  --title-bevel: 12px;
+  --time-bevel: 3em;
+}
+
+.time.medium {
+  --title-bevel: 32px;
+  --time-bevel: 4em;
+}
+
+.time.large {
+  font-size: 16px;
 }
 
 .time-display {
   justify-self: start;
-  text-align: center;
+  text-align: start;
 
   background-color: hsl(206, 8%, 100%);
-  aspect-ratio: 16/1;
 
-  padding-inline: 32px;
+  padding-inline: var(--time-bevel);
   padding-top: 8px;
   padding-bottom: 8px;
 
-  border-top-left-radius: 9em;
-  border-bottom-right-radius: 9em;
+  border-top-left-radius: var(--time-bevel);
+  border-bottom-right-radius: var(--time-bevel);
+
   corner-shape: bevel;
+
+  margin-bottom: 4px;
 
   box-shadow: 0 -2px 16px 8px hsla(206, 8%, 100%, 0.1);
 }
 
+.time.medium .time-display {
+  aspect-ratio: 12/1;
+}
+
+.time.large .time-display {
+  aspect-ratio: 16/1;
+}
+
 .title {
-  font-size: 24px;
-  min-height: 64px;
   background-color: hsl(206, 8%, 17%);
   color: hsl(206, 8%, 100%);
 
-  padding-inline: 32px;
+  padding-inline: var(--title-bevel);
   padding-top: 8px;
   padding-bottom: 8px;
 
-  border-bottom-left-radius: 32px;
-  border-top-right-radius: 32px;
+  border-bottom-left-radius: var(--title-bevel);
+  border-top-right-radius: var(--title-bevel);
   corner-shape: bevel;
-  border: grey 4px solid;
+  border: grey 2px solid;
 
   box-shadow: 0 0px 8px 4px hsla(206, 8%, 100%, 0.1);
 }
