@@ -4,6 +4,7 @@ import YoutubeIcon from '@/components/svg/YoutubeIcon.vue'
 import DayDisplay from '@/components/talents/pipkin-pippa/DayDisplay.vue'
 import DetailBackground from '@/components/talents/pipkin-pippa/DetailBackground.vue'
 import { setBg } from '@/utils/background'
+import { youtubeUpcomingStreamList } from '@/utils/youtube-api'
 import { useElementBounding } from '@vueuse/core'
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 
@@ -37,37 +38,12 @@ const timezone = 'America/Los_Angeles'
 
 const data = ref<StreamWrapper[]>([])
 
-const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY
-
-const params = new URLSearchParams({
-  part: 'snippet',
-  channelId: 'UCJ46YTYBQVXsfsp8-HryoUA',
-  maxResults: '6',
-  type: 'video',
-  eventType: 'upcoming',
-  order: 'date',
-  key: apiKey,
-})
+const channelId = 'UCJ46YTYBQVXsfsp8-HryoUA'
 
 onMounted(async () => {
   setBg(background)
 
-  const response = await fetch(`https://www.googleapis.com/youtube/v3/search?${params.toString()}`)
-
-  const searchData = await response.json()
-
-  for (let i = 0; i < searchData.items.length; i++) {
-    const params = new URLSearchParams({
-      part: 'snippet,liveStreamingDetails',
-      id: searchData.items[i].id.videoId,
-      key: apiKey,
-    })
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?${params.toString()}`,
-    )
-
-    data.value.push(await response.json())
-  }
+  data.value = await youtubeUpcomingStreamList(channelId)
 })
 
 onUnmounted(() => {
