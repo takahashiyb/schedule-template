@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
-import type { DataYoutube } from '@/types/youtube-streaming-list'
 import { getShortTime } from '@/utils/dates'
+import type { StreamWrapper } from '@/types/youtube-streaming-list'
 
-const props = defineProps<{ event: DataYoutube; timezone: string }>()
+const props = defineProps<{ event: StreamWrapper; timezone: string }>()
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 

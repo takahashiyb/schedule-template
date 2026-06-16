@@ -2,14 +2,16 @@
 import { computed, useTemplateRef } from 'vue'
 import { breakpointsVuetifyV3, useBreakpoints, useScroll } from '@vueuse/core'
 import DayDisplay from '@/components/talents/phase-connect/DayDisplay.vue'
-import type { DataYoutube } from '@/types/youtube-streaming-list'
 import { getDayWeek, getMonthShortDate, getYMD, isWithinSevenDays } from '@/utils/dates'
+import type { StreamWrapper } from '@/types/youtube-streaming-list'
 
-const props = defineProps<{ timezone: string; dataYoutube: DataYoutube[] }>()
+const props = defineProps<{ timezone: string; dataYoutube: StreamWrapper[] }>()
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
 const medium = breakpoints.greater('sm')
+
+const large = breakpoints.greater('md')
 
 const days = useTemplateRef('days')
 const { y } = useScroll(days, { behavior: 'smooth' })
@@ -18,9 +20,9 @@ const groupedByDate = computed(() => {
   return groupDataByDate(props.dataYoutube, props.timezone)
 })
 
-function groupDataByDate(data: DataYoutube[], timezone: string) {
+function groupDataByDate(data: StreamWrapper[], timezone: string) {
   // Step 1: Pre-seed 8 days starting today
-  const groups: Record<string, DataYoutube[]> = {}
+  const groups: Record<string, StreamWrapper[]> = {}
   const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone: timezone,
     year: '2-digit',
@@ -61,7 +63,7 @@ function groupDataByDate(data: DataYoutube[], timezone: string) {
 }
 </script>
 <template>
-  <section class="days" ref="days" :class="{ medium: medium }">
+  <section class="days" ref="days" :class="{ medium: medium, large: large }">
     <div class="day" v-for="(time, date, index) in groupedByDate" :key="`date-${index}`">
       <div class="date" v-if="date === getYMD(new Date(), timezone)">Today</div>
       <p class="date" v-else>
@@ -118,6 +120,10 @@ function groupDataByDate(data: DataYoutube[], timezone: string) {
 .days.medium .day {
   grid-template-columns: 160px 5fr 5fr;
   gap: 16px;
+}
+
+.days.large .day {
+  grid-template-columns: 200px 5fr 5fr;
 }
 
 .date {

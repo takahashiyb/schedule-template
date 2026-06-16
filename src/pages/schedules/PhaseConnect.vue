@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
 import DaysContainer from '@/components/talents/phase-connect/DaysContainer.vue'
-import { dataYoutube } from '@/assets/data/samples/youtube-videos'
 import { setBg } from '@/utils/background'
+import { onMounted, onUnmounted, ref } from 'vue'
+// import { youtubeUpcomingStreamList } from '@/utils/youtube-api'
+import { dataYoutube } from '@/assets/data/samples/youtube-videos'
+import type { StreamWrapper } from '@/types/youtube-streaming-list'
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
@@ -11,7 +14,35 @@ const large = breakpoints.greater('md')
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-setBg('hsl(206, 8%, 17%)')
+const background = 'hsl(206, 8%, 17%)'
+
+// Pippa
+// const channelId = 'UCJ46YTYBQVXsfsp8-HryoUA'
+// Tenma
+// const channelId = 'UC3K7pmiHsNSx1y0tdx2bbCw'
+// Lia
+// const channelId = 'UCg7sW-h1PUowdiR5K4HlBew'
+// Uruka
+// const channelId = 'UCjXJYPsKxoJyc-1RPB6dSyw'
+// Nasa
+// const channelId =  'UCB7sSUNwh_dXE7ZL3DsGDpw'
+// Michiru
+// const channelId =  'UC1cExET9xoWSO9iSnRsW_1Q'
+// Iori
+// const channelId = 'UCN5bD1YYapThOeadG7YkBOA'
+
+const data = ref<StreamWrapper[]>([])
+
+onMounted(async () => {
+  setBg(background)
+
+  // data.value = await youtubeUpcomingStreamList(channelId)
+  data.value = dataYoutube
+})
+
+onUnmounted(() => {
+  setBg('hsl(0, 0%, 100%)')
+})
 </script>
 <template>
   <div class="page" :class="{ medium: medium, large: large }">
@@ -20,7 +51,7 @@ setBg('hsl(206, 8%, 17%)')
       <h1>Schedule</h1>
     </header>
     <section class="featured-art"></section>
-    <DaysContainer class="days" :dataYoutube="dataYoutube" :timezone="timezone"></DaysContainer>
+    <DaysContainer class="days" :dataYoutube="data" :timezone="timezone"></DaysContainer>
   </div>
 </template>
 <style scoped lang="scss">
