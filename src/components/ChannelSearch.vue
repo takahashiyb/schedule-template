@@ -81,7 +81,7 @@ async function getChannelVideoList(name: string) {
 
   <label> <input type="text" v-model="name" /></label>
   <button @click="getYoutube(name)">Search Youtube Channel</button>
-  <button @click="getChannelVideoList(name)">Search Channel Video List</button>
+  <button @click="getChannelVideoList(name)">Search Upcoming Stream List</button>
   <button @click="getYoutubeVideo(name)">Search Youtube Video</button>
 
   <section>
