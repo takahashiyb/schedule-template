@@ -40,10 +40,6 @@ const large = breakpoints.greater('md')
   --time-bevel: 4em;
 }
 
-.time.large {
-  font-size: 16px;
-}
-
 .time-display {
   justify-self: start;
   text-align: start;
