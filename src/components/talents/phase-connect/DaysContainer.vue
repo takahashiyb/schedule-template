@@ -16,7 +16,11 @@ interface Talent {
   color3: string
 }
 
-const props = defineProps<{ timezone: string; dataYoutube: StreamWrapper[]; talent?: Talent }>()
+const props = defineProps<{
+  timezone: string
+  dataYoutube: StreamWrapper[] | undefined
+  talent?: Talent
+}>()
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
@@ -31,7 +35,7 @@ const groupedByDate = computed(() => {
   return groupDataByDate(props.dataYoutube, props.timezone)
 })
 
-function groupDataByDate(data: StreamWrapper[], timezone: string) {
+function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   // Step 1: Pre-seed 8 days starting today
   const groups: Record<string, StreamWrapper[]> = {}
   const formatter = new Intl.DateTimeFormat('en-US', {
@@ -50,6 +54,8 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
   }
 
   // Step 2: Filling Events in dates
+
+  if (data === undefined) return
 
   for (const item of data) {
     const start = new Date(item.items[0]!.liveStreamingDetails.scheduledStartTime)
@@ -119,7 +125,7 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
   flex-direction: column;
   gap: 40px;
 
-  overflow: scroll;
+  overflow-y: scroll;
   scrollbar-width: none;
 
   padding-inline: 24px;
@@ -182,7 +188,6 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
   text-align: center;
 
   width: 100%;
-  min-height: 64px;
   background-color: hsl(206, 8%, 17%);
   color: hsl(206, 8%, 100%);
 
@@ -214,6 +219,8 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
 
   display: grid;
   grid-template-columns: subgrid;
+
+  height: 100%;
 
   gap: 16px;
 }
