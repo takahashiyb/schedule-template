@@ -1,0 +1,18 @@
+name: Daily Phase Connnect Schedule Update
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+      timezone: "Asia/Manila"
+
+jobs:
+  trigger-edge-function:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Trigger Supabase Edge Function
+      run: |
+        curl -L -X POST 'https://kjxwqyohzvhaeuktoewh.supabase.co/functions/v1/swift-api' \
+          -H "apikey: ${{ secrets.SUPABASE_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          --data '{"name":"Functions"}'
