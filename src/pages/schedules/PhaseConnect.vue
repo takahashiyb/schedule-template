@@ -2,10 +2,21 @@
 import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
 import DaysContainer from '@/components/talents/phase-connect/DaysContainer.vue'
 import { setBg } from '@/utils/background'
-import { onMounted, onUnmounted, ref } from 'vue'
-// import { youtubeUpcomingStreamList } from '@/utils/youtube-api'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { youtubeUpcomingStreamList } from '@/utils/youtube-api'
 import { dataYoutube } from '@/assets/data/samples/youtube-videos'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
+
+interface Talent {
+  id: string
+  name: string
+  channelId: string
+  gen: number
+  genName: string
+  color1: string
+  color2: string
+  color3: string
+}
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
@@ -16,27 +27,92 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 const background = 'hsl(206, 8%, 17%)'
 
-// Pippa
-// const channelId = 'UCJ46YTYBQVXsfsp8-HryoUA'
-// Tenma
-// const channelId = 'UC3K7pmiHsNSx1y0tdx2bbCw'
-// Lia
-// const channelId = 'UCg7sW-h1PUowdiR5K4HlBew'
-// Uruka
-// const channelId = 'UCjXJYPsKxoJyc-1RPB6dSyw'
-// Nasa
-// const channelId =  'UCB7sSUNwh_dXE7ZL3DsGDpw'
-// Michiru
-// const channelId =  'UC1cExET9xoWSO9iSnRsW_1Q'
-// Iori
-// const channelId = 'UCN5bD1YYapThOeadG7YkBOA'
+const talents: Talent[] = [
+  {
+    id: 'rinkou-ashelia',
+    name: 'Rinkou Ashelia',
+    channelId: 'UCg7sW-h1PUowdiR5K4HlBew',
+    gen: 1,
+    genName: 'origins',
+    color1: '324, 61%, 54%',
+    color2: '258, 42%, 94%',
+    color3: '40, 99%, 67%',
+  },
+  {
+    id: 'utatane-nasa',
+    name: 'Utatane Nasa',
+    channelId: 'UCB7sSUNwh_dXE7ZL3DsGDpw',
+    gen: 1,
+    genName: 'origins',
+    color1: '262, 42%, 43%',
+    color2: '41, 87%, 75%',
+    color3: '333, 47%, 56%',
+  },
+  {
+    id: 'pipkin-pippa',
+    name: 'Pipkin Pippa',
+    channelId: 'UCJ46YTYBQVXsfsp8-HryoUA',
+    gen: 1,
+    genName: 'origins',
+    color1: '20, 77%, 92%',
+    color2: '350, 100%, 85%',
+    color3: '235, 59%, 92%',
+  },
+  {
+    id: 'maemi-tenma',
+    name: 'Maemi Tenma',
+    channelId: 'UC3K7pmiHsNSx1y0tdx2bbCw',
+    gen: 1,
+    genName: 'origins',
+    color1: '313, 10%, 47%',
+    color3: '276, 14%, 86%',
+    color2: '328, 76%, 79%',
+  },
+  {
+    id: 'hakushika-iori',
+    name: 'Hakushika Iori',
+    channelId: 'UCN5bD1YYapThOeadG7YkBOA',
+    gen: 1,
+    genName: 'origins',
+    color1: '198, 100%, 73%',
+    color2: '185, 93%, 95%',
+    color3: '45, 63%, 72%',
+  },
+  {
+    id: 'fujikura-uruka',
+    name: 'Fujikura Uruka',
+    channelId: 'UCjXJYPsKxoJyc-1RPB6dSyw',
+    gen: 1,
+    genName: 'origins',
+    color1: '189, 57%, 65%',
+    color2: '36, 89%, 62%',
+    color3: '217, 25%, 52%',
+  },
+  {
+    id: 'shisui-michiru',
+    name: 'Shisui Michiru',
+    channelId: 'UC1cExET9xoWSO9iSnRsW_1Q',
+    gen: 1,
+    genName: 'origins',
+    color1: '307, 38%, 30%',
+    color2: '63, 44%, 38%',
+    color3: '191, 58%, 96%',
+  },
+]
+
+const talent = ref<Talent>()
 
 const data = ref<StreamWrapper[]>([])
 
 onMounted(async () => {
   setBg(background)
 
-  // data.value = await youtubeUpcomingStreamList(channelId)
+  // data.value = await youtubeUpcomingStreamList(talent.value!.channelId)
+  data.value = dataYoutube
+})
+
+watch(talent, async () => {
+  // data.value = await youtubeUpcomingStreamList(talent.value!.channelId)
   data.value = dataYoutube
 })
 
@@ -51,7 +127,19 @@ onUnmounted(() => {
       <h1>Schedule</h1>
     </header>
     <section class="featured-art"></section>
-    <DaysContainer class="days" :dataYoutube="data" :timezone="timezone"></DaysContainer>
+    <p class="days empty" v-if="!talent">Select a talent below</p>
+    <DaysContainer
+      class="days"
+      :dataYoutube="data"
+      :timezone="timezone"
+      :talent="talent"
+      v-else
+    ></DaysContainer>
+    <select v-model="talent">
+      <option v-for="talent in talents" :key="talent.channelId" :value="talent">
+        {{ talent.name }}
+      </option>
+    </select>
   </div>
 </template>
 <style scoped lang="scss">
@@ -117,7 +205,7 @@ header img {
 .page .featured-art {
   grid-column: 1;
   grid-row: 2/4;
-  background-color: red;
+  // background-color: red;
   aspect-ratio: 1/1;
   width: 100%;
   max-width: 320px;
@@ -142,5 +230,12 @@ header img {
   order: 1;
   grid-column: 2/4;
   grid-row: 2;
+}
+
+.days.empty {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 </style>

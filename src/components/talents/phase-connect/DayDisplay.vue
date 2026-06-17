@@ -3,7 +3,18 @@ import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
 import { getShortTime } from '@/utils/dates'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
 
-const props = defineProps<{ event: StreamWrapper; timezone: string }>()
+interface Talent {
+  id: string
+  name: string
+  channelId: string
+  gen: number
+  genName: string
+  color1: string
+  color2: string
+  color3: string
+}
+
+const props = defineProps<{ event: StreamWrapper; timezone: string; talent?: Talent }>()
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 

@@ -5,7 +5,18 @@ import DayDisplay from '@/components/talents/phase-connect/DayDisplay.vue'
 import { getDayWeek, getMonthShortDate, getYMD, isWithinSevenDays } from '@/utils/dates'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
 
-const props = defineProps<{ timezone: string; dataYoutube: StreamWrapper[] }>()
+interface Talent {
+  id: string
+  name: string
+  channelId: string
+  gen: number
+  genName: string
+  color1: string
+  color2: string
+  color3: string
+}
+
+const props = defineProps<{ timezone: string; dataYoutube: StreamWrapper[]; talent?: Talent }>()
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
@@ -63,7 +74,15 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
 }
 </script>
 <template>
-  <section class="days" ref="days" :class="{ medium: medium, large: large }">
+  <section
+    class="days"
+    ref="days"
+    :class="{ medium: medium, large: large }"
+    :style="[
+      `--talent-color-1: ${props.talent?.color1}`,
+      `--talent-color-2: ${props.talent?.color2}`,
+    ]"
+  >
     <div class="day" v-for="(time, date, index) in groupedByDate" :key="`date-${index}`">
       <div class="date" v-if="date === getYMD(new Date(), timezone)">Today</div>
       <p class="date" v-else>
@@ -83,6 +102,7 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
           :key="`time-${index}`"
           :event="value"
           :timezone="props.timezone"
+          :talent="props.talent"
         ></DayDisplay>
       </div>
     </div>
@@ -92,6 +112,8 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
 <style scoped lang="scss">
 .days {
   --extra-bevel: 12px;
+  --talent-color-1: '0, 0%, 0%';
+  --talent-color-2: '0, 0%, 0%';
 
   display: flex;
   flex-direction: column;
@@ -145,9 +167,9 @@ function groupDataByDate(data: StreamWrapper[], timezone: string) {
   border-bottom-left-radius: var(--date-bevel);
   border-top-right-radius: var(--date-bevel);
   corner-shape: bevel;
-  border: grey 2px solid;
+  border: hsla(var(--talent-color-2), 0.6) 2px solid;
 
-  box-shadow: 0 0px 8px 4px hsla(206, 8%, 100%, 0.1);
+  box-shadow: 0 0px 12px 8px hsla(var(--talent-color-1), 0.4);
 }
 
 .days.medium .date {
