@@ -47,12 +47,12 @@ const props = defineProps<{
   >
     <img
       class="upNext"
-      src="/src/assets/icons/pipkin-pippa/Up Next.svg"
+      src="/assets/icons/pipkin-pippa/Up Next.svg"
       v-if="props.data.snippet.liveBroadcastContent === 'upcoming'"
     />
     <img
       class="upNext"
-      src="/src/assets/icons/pipkin-pippa/Up Next Live.svg"
+      src="/assets/icons/pipkin-pippa/Up Next Live.svg"
       v-else-if="props.data.snippet.liveBroadcastContent === 'live'"
     />
     <a :href="`https://www.youtube.com/watch?v=${props.data.id}`" target="_blank" class="title">{{

@@ -84,7 +84,7 @@ onUnmounted(() => {
             : '',
         }"
       >
-        <img class="tail-ribbon" src="/src/assets//icons/pipkin-pippa/Tail Ribbon.svg" alt="" />
+        <img class="tail-ribbon" src="/assets/icons/pipkin-pippa/Tail Ribbon.svg" alt="" />
         <span>New schedules coming soon...</span>
       </div>
     </div>
@@ -105,15 +105,15 @@ onUnmounted(() => {
       <YoutubeIcon class="social-icon" />
       <TwitchIcon class="social-icon" />
     </div>
-    <img class="arm-ribbon" src="/src/assets//icons/pipkin-pippa/Arm Ribbon.svg" alt="" />
+    <img class="arm-ribbon" src="/assets/icons/pipkin-pippa/Arm Ribbon.svg" alt="" />
     <img
       class="ribbon-collection-horizontal"
-      src="/src/assets//icons/pipkin-pippa/Ribbon Collection.svg"
+      src="/assets/icons/pipkin-pippa/Ribbon Collection.svg"
       alt=""
     />
     <img
       class="ribbon-collection-vertical"
-      src="/src/assets//icons/pipkin-pippa/Ribbon Collection1.svg"
+      src="/assets/icons/pipkin-pippa/Ribbon Collection1.svg"
       alt=""
     />
   </section>
