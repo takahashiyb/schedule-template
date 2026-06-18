@@ -5,6 +5,7 @@ import { setBg } from '@/utils/background'
 import { onMounted, onUnmounted, ref } from 'vue'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
 import { supabase } from '@/lib/supabase'
+import FeaturedArt from '@/components/talents/phase-connect/FeaturedArt.vue'
 
 interface Talent {
   id: string
@@ -26,7 +27,7 @@ const large = breakpoints.greater('md')
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
-const background = 'hsl(206, 8%, 17%)'
+const background = 'hsl(0, 0%, 4%)'
 
 const talents = ref<Talent[]>()
 
@@ -65,7 +66,7 @@ onUnmounted(() => {
       <h1>Schedule</h1>
       <button class="side-button" @click="turnSidebarOn">|||</button>
     </header>
-    <section class="featured-art"></section>
+    <FeaturedArt :path="`/assets/icons/${talent?.id}/fullbody/resized.png`"></FeaturedArt>
     <div class="days empty" v-if="!talent">
       <p>Select a talent</p>
       <select v-model="talent">
@@ -83,12 +84,18 @@ onUnmounted(() => {
     />
     <div class="sidebar" :class="{ open: isSidebarOpen }">
       <button class="close-button" @click="turnSidebarOff">X</button>
+      <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
       <p>Select a talent</p>
       <select v-model="talent">
         <option v-for="talent in talents" :key="talent.id" :value="talent">
           {{ talent.name }}
         </option>
       </select>
+    </div>
+    <div class="border" :style="`--border: ${talent?.color3}`">
+      <div></div>
+      <div></div>
+      <div></div>
     </div>
   </div>
 </template>
@@ -110,16 +117,20 @@ onUnmounted(() => {
   hyphens: auto;
 
   padding-top: 16px;
+  padding-bottom: 32px;
 
   overflow: hidden;
 }
 
 .page.large {
-  grid-template-columns: 3fr 1fr 4fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 3fr;
+
   grid-template-rows: 120px auto;
 
   aspect-ratio: 16/9;
   height: 100svh;
+  width: 100%;
+  max-width: 1600px;
   font-size: 1em;
 
   margin-inline: auto;
@@ -135,8 +146,8 @@ header {
 }
 
 .page.large header {
-  order: 2;
-  grid-column: 2/4;
+  order: 3;
+  grid-column: 3/6;
   grid-row: 1;
 }
 
@@ -163,17 +174,21 @@ header img {
 .page .featured-art {
   grid-column: 1;
   grid-row: 2/4;
-  background-color: red;
+
   aspect-ratio: 1/1;
+  height: 100%;
   width: 100%;
   max-width: 320px;
   margin-inline: auto;
+
+  z-index: 0;
 }
 
 .page.large .featured-art {
-  order: 0;
-  grid-column: 1/3;
-  grid-row: 1/-1;
+  order: 1;
+  grid-column: 1/4;
+  grid-row: 1/3;
+  align-self: center;
 
   aspect-ratio: auto;
   max-width: none;
@@ -185,20 +200,20 @@ header img {
 }
 
 .page.large .days {
-  order: 1;
-  grid-column: 2/4;
+  order: 2;
+  grid-column: 3/6;
   grid-row: 2;
 }
 
 .days.empty {
-  justify-self: center;
+  justify-self: end;
 
   display: grid;
   align-items: center;
-  align-content: center;
+  align-content: start;
   color: white;
 
-  max-width: 500px;
+  padding-right: 16px;
 }
 
 .side-button {
@@ -218,10 +233,14 @@ header img {
   display: grid;
   align-items: start;
   align-content: start;
+  gap: 20px;
+
   position: absolute;
   top: 0;
   bottom: 0;
   right: 0;
+  z-index: 1;
+
   height: 100%;
   width: 250px;
   background-color: hsl(206, 8%, 17%);
@@ -230,14 +249,20 @@ header img {
 
   transition: 300ms transform;
 
-  padding: 16px;
+  padding: 20px;
 
   box-shadow:
-    2px 0 0 white inset,
-    4px 0 0 hsl(206, 8%, 17%) inset,
-    6px 0 0 white inset,
-    8px 0 0 hsl(206, 8%, 17%) inset,
-    10px 0 0 white inset;
+    4px 0 0 white inset,
+    6px 0 0 hsl(206, 8%, 17%) inset,
+    10px 0 0 white inset,
+    12px 0 0 hsl(206, 8%, 17%) inset,
+    16px 0 0 white inset;
+}
+
+.page.medium .sidebar {
+  width: 400px;
+
+  padding-inline: 56px;
 }
 
 .sidebar.open {
@@ -255,5 +280,62 @@ header img {
   font-weight: 900;
 
   cursor: pointer;
+}
+
+.border {
+  --skew: 35deg;
+  --border: 0, 0%, 100%;
+
+  display: grid;
+  grid-column: 2/5;
+  grid-row: 2/3;
+
+  z-index: -1;
+  opacity: 0;
+}
+
+.page.large .border {
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+
+  opacity: 1;
+}
+
+.border div {
+  width: 70%;
+  background-color: hsl(206, 8%, 15%);
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+
+.border div:nth-child(1) {
+  grid-column: 2;
+  grid-row: 1;
+
+  transform: skewX(var(--skew));
+  transform-origin: top left; /* pivot point */
+
+  border-width: 4px 4px 0 4px;
+}
+
+.border div:nth-child(2) {
+  grid-column: 2;
+  grid-row: 2;
+
+  transform: skewX(calc(var(--skew) * -1));
+  transform-origin: bottom left; /* pivot point */
+
+  border-width: 0 4px 4px 4px;
+}
+
+.border div:nth-child(3) {
+  grid-column: 1;
+  grid-row: 3;
+  justify-self: end;
+  transform: skewX(calc(var(--skew) * -1));
+
+  transform-origin: top right; /* pivot point */
+
+  border-width: 4px 4px 4px 4px;
 }
 </style>

@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { computed, useTemplateRef } from 'vue'
-import { breakpointsVuetifyV3, useBreakpoints, useScroll } from '@vueuse/core'
+import { computed, ref, useTemplateRef, watch } from 'vue'
+import {
+  breakpointsVuetifyV3,
+  useBreakpoints,
+  useScroll,
+  useDebounceFn,
+  useTimeout,
+} from '@vueuse/core'
 import DayDisplay from '@/components/talents/phase-connect/DayDisplay.vue'
 import { getDayWeek, getMonthShortDate, getYMD, isWithinSevenDays } from '@/utils/dates'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
@@ -28,8 +34,26 @@ const medium = breakpoints.greater('sm')
 
 const large = breakpoints.greater('md')
 
+const xLarge = breakpoints.greater('lg')
+
 const days = useTemplateRef('days')
-const { y } = useScroll(days, { behavior: 'smooth' })
+const { y, arrivedState, isScrolling } = useScroll(days, { behavior: 'smooth' })
+const { start, ready, stop } = useTimeout(1500, { controls: true })
+const showMore = ref(false)
+
+const handleScroll = useDebounceFn(() => {
+  showMore.value = false
+  stop()
+  start()
+}, 100)
+
+watch(isScrolling, () => {
+  handleScroll()
+})
+
+watch(ready, (done) => {
+  if (done) showMore.value = true
+})
 
 const groupedByDate = computed(() => {
   return groupDataByDate(props.dataYoutube, props.timezone)
@@ -55,7 +79,9 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
 
   // Step 2: Filling Events in dates
 
-  if (data === undefined) return
+  if (!data || data.length === 0) {
+    return {}
+  }
 
   for (const item of data) {
     const start = new Date(item.items[0]!.liveStreamingDetails.scheduledStartTime)
@@ -83,7 +109,7 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   <section
     class="days"
     ref="days"
-    :class="{ medium: medium, large: large }"
+    :class="{ medium: medium, large: large, xLarge: xLarge }"
     :style="[
       `--talent-color-1: ${props.talent?.color1}`,
       `--talent-color-2: ${props.talent?.color2}`,
@@ -112,7 +138,28 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
         ></DayDisplay>
       </div>
     </div>
-    <button class="return" type="button" @click="y = 0">Back to Top</button>
+    <button
+      v-if="Object.keys(groupedByDate).length > 0"
+      class="return"
+      type="button"
+      @click="y = 0"
+    >
+      Back to Top
+    </button>
+    <div class="no-schedule" v-else>
+      <p>There are no scheduled streams.</p>
+      <p>Go to the sidebar to select another talent.</p>
+    </div>
+
+    <div
+      class="scroll-more"
+      :class="{ appear: showMore && !arrivedState.bottom && Object.keys(groupedByDate).length > 0 }"
+      :style="`--bg-color: ${talent?.color3}`"
+    >
+      <span>V</span>
+      <span>V</span>
+      <span>V</span>
+    </div>
   </section>
 </template>
 <style scoped lang="scss">
@@ -151,6 +198,10 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
 }
 
 .days.large .day {
+  grid-template-columns: 200px 1fr;
+}
+
+.days.xLarge .day {
   grid-template-columns: 200px 5fr 5fr;
 }
 
@@ -163,6 +214,7 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   text-align: center;
 
   background-color: hsl(206, 8%, 17%);
+
   color: hsl(206, 8%, 100%);
   width: 100%;
 
@@ -198,9 +250,10 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   border-bottom-left-radius: var(--extra-bevel);
   border-top-right-radius: var(--extra-bevel);
   corner-shape: bevel;
-  border: grey 2px solid;
 
-  box-shadow: 0 0px 8px 4px hsla(206, 8%, 100%, 0.1);
+  border: hsla(var(--talent-color-2), 0.6) 2px solid;
+
+  box-shadow: 0 0px 12px 8px hsla(var(--talent-color-1), 0.4);
 }
 
 .return {
@@ -229,7 +282,65 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   grid-column: 2/4;
 }
 
+.days.large .time-container {
+  grid-column: 2;
+}
+
+.days.xLarge .time-container {
+  grid-column: 2/4;
+}
+
 .time:nth-child(odd):last-child {
   grid-column: span 2;
+}
+
+.scroll-more {
+  --bg-color: white;
+
+  border-bottom-left-radius: var(--extra-bevel);
+  border-top-right-radius: var(--extra-bevel);
+
+  position: absolute;
+  bottom: 48px;
+  right: 32px;
+  z-index: 0;
+
+  height: 64px;
+  width: 120px;
+  background-color: hsl(0, 0%, 4%);
+  color: white;
+  font-weight: 900;
+
+  padding-inline: var(--extra-bevel);
+
+  corner-shape: bevel;
+  border-bottom-left-radius: var(--extra-bevel);
+  border-top-right-radius: var(--extra-bevel);
+  border-color: hsl(var(--bg-color));
+  border-width: 4px;
+  border-style: solid;
+
+  opacity: 0;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+}
+
+.scroll-more.appear {
+  opacity: 1;
+
+  transition: opacity 700ms;
+}
+
+.no-schedule {
+  display: grid;
+  align-content: center;
+  align-items: center;
+  text-align: end;
+
+  height: 100%;
+  color: white;
 }
 </style>

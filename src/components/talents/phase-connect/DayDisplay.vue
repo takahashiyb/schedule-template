@@ -79,9 +79,10 @@ const large = breakpoints.greater('md')
   border-bottom-left-radius: var(--title-bevel);
   border-top-right-radius: var(--title-bevel);
   corner-shape: bevel;
-  border: grey 2px solid;
 
-  box-shadow: 0 0px 8px 4px hsla(206, 8%, 100%, 0.1);
+  border: hsla(var(--talent-color-2), 0.6) 2px solid;
+
+  box-shadow: 0 0px 12px 8px hsla(var(--talent-color-1), 0.4);
 }
 
 .time:nth-child(odd):last-child .title {
