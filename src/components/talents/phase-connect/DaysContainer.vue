@@ -10,6 +10,7 @@ import {
 import DayDisplay from '@/components/talents/phase-connect/DayDisplay.vue'
 import { getDayWeek, getMonthShortDate, getYMD, isWithinSevenDays } from '@/utils/dates'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
+import ScrollMore from './ScrollMore.vue'
 
 interface Talent {
   id: string
@@ -20,11 +21,15 @@ interface Talent {
   color1: string
   color2: string
   color3: string
+  debut: string
+  birthmonth: number
+  birthdate: number
+  data?: StreamWrapper[]
+  restMessage: string
 }
 
 const props = defineProps<{
   timezone: string
-  dataYoutube: StreamWrapper[] | undefined
   talent?: Talent
 }>()
 
@@ -56,7 +61,7 @@ watch(ready, (done) => {
 })
 
 const groupedByDate = computed(() => {
-  return groupDataByDate(props.dataYoutube, props.timezone)
+  return groupDataByDate(props.talent?.data, props.timezone)
 })
 
 function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
@@ -122,7 +127,9 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
           isWithinSevenDays(date) ? getDayWeek(date, timezone) : getMonthShortDate(date, timezone)
         }}
       </p>
-      <div class="rest" v-if="!time.length">Talent Slumbers</div>
+      <div class="rest" v-if="!time.length">
+        {{ talent?.restMessage ? talent.restMessage : 'REST DAY' }}
+      </div>
       <div class="time-container" v-else>
         <DayDisplay
           class="time"
@@ -156,9 +163,7 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
       :class="{ appear: showMore && !arrivedState.bottom && Object.keys(groupedByDate).length > 0 }"
       :style="`--bg-color: ${talent?.color3}`"
     >
-      <span>V</span>
-      <span>V</span>
-      <span>V</span>
+      <ScrollMore />
     </div>
   </section>
 </template>
@@ -297,41 +302,33 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
 .scroll-more {
   --bg-color: white;
 
-  border-bottom-left-radius: var(--extra-bevel);
-  border-top-right-radius: var(--extra-bevel);
-
   position: absolute;
   bottom: 48px;
   right: 32px;
   z-index: 0;
 
-  height: 64px;
-  width: 120px;
-  background-color: hsl(0, 0%, 4%);
-  color: white;
+  color: hsl(var(--bg-color));
+
   font-weight: 900;
-
-  padding-inline: var(--extra-bevel);
-
-  corner-shape: bevel;
-  border-bottom-left-radius: var(--extra-bevel);
-  border-top-right-radius: var(--extra-bevel);
-  border-color: hsl(var(--bg-color));
-  border-width: 4px;
-  border-style: solid;
+  font-size: 2rem;
 
   opacity: 0;
 
   display: flex;
-  justify-content: space-evenly;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .scroll-more.appear {
   opacity: 1;
 
   transition: opacity 700ms;
+}
+
+.scroll-more span {
+  white-space: nowrap;
 }
 
 .no-schedule {
