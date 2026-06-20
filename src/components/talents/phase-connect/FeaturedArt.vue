@@ -6,30 +6,95 @@ const props = defineProps<{ path?: string }>()
 
 const imgSrc = ref(props.path)
 
-watch(
-  () => props.path,
-  (newVal) => {
-    imgSrc.value = newVal
-  },
-)
-
 function handleError() {
   imgSrc.value = '/assets/icons/PhaseConnect_Header_Logo.png'
 }
 
 // animation
 const img = useTemplateRef('img')
-const { play } = useAnimate(
-  img,
-  { transform: 'rotate(360deg)' },
-  { duration: 1000, immediate: false, commitStyles: true },
+
+watch(
+  () => props.path,
+  (newVal) => {
+    imgSrc.value = newVal
+    cancel()
+    play()
+  },
 )
+
+const keyframes = ref([
+  {
+    transform: 'scale(100%) translateY(0%) translateX(0%)',
+    opacity: 1,
+    offset: 0,
+  },
+  {
+    transform: 'scale(100%) translateY(0%) translateX(0%)',
+    opacity: 0,
+    offset: 0.001,
+  },
+  {
+    transform: 'scale(250%) translateY(23%) translateX(-100%) ',
+    offset: 0.002,
+  },
+  {
+    transform: 'scale(250%) translateY(23%) translateX(0%)',
+    opacity: 1,
+    offset: 0.3,
+  },
+  {
+    transform: 'scale(250%) translateY(23%) translateX(20%)',
+    opacity: 0,
+    offset: 0.4,
+  },
+  {
+    transform: 'scale(250%) translateY(-100%) translateX(0%)',
+    opacity: 0,
+    offset: 0.41,
+  },
+  {
+    transform: 'scale(250%) translateY(-100%) translateX(0%)',
+    opacity: 1,
+    offset: 0.42,
+  },
+
+  {
+    transform: 'scale(250%) translateY(15%) translateX(0%)',
+    opacity: 1,
+    offset: 0.8,
+  },
+
+  {
+    transform: 'scale(250%) translateY(15%) translateX(0%)',
+    opacity: 1,
+    offset: 0.803,
+  },
+  {
+    transform: 'scale(250%) translateY(50%) translateX(0%)',
+    opacity: 0,
+    offset: 0.9,
+  },
+  {
+    transform: 'scale(100%) translateY(0%) translateX(0%)',
+    opacity: 0,
+    offset: 0.91,
+  },
+  {
+    opacity: 1,
+  },
+])
+
+const { play, cancel } = useAnimate(img, keyframes, {
+  duration: 6000,
+})
 </script>
+
 <template>
   <section class="featured-art">
-    <img class="" ref="img" :src="imgSrc" alt="" @error="handleError" @click="play()" />
+    <img class="" ref="img" :src="imgSrc" alt="" @error="handleError" />
   </section>
 </template>
+
 <style scoped lang="scss">
 .featured-art {
   overflow: hidden;
@@ -41,11 +106,7 @@ const { play } = useAnimate(
   height: 100%;
   max-height: 600px;
   width: 100%;
-  transition: transform 1s;
-}
 
-.featured-art img.move {
-  transform: scale(250%) translateY(23%);
-  transition: transform 1s;
+  z-index: 0;
 }
 </style>
