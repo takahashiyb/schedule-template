@@ -1,28 +1,12 @@
 <script setup lang="ts">
+import type { Talent } from '@/types/talent-data-supabase'
 import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
 import DaysContainer from '@/components/talents/phase-connect/DaysContainer.vue'
 import { setBg } from '@/utils/background'
-import { onMounted, onUnmounted, ref } from 'vue'
-import type { StreamWrapper } from '@/types/youtube-streaming-list'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { supabase } from '@/lib/supabase'
 import FeaturedArt from '@/components/talents/phase-connect/FeaturedArt.vue'
-
-interface Talent {
-  id: string
-  name: string
-  channelId: string
-  gen: number
-  genName: string
-  color1: string
-  color2: string
-  color3: string
-  type: string
-  data?: StreamWrapper[]
-  restMessage: string
-  debut: string
-  birthmonth: number
-  birthdate: number
-}
+import TalentDropdown from '@/components/talents/phase-connect/TalentDropdown.vue'
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
@@ -33,9 +17,13 @@ const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 const background = 'hsl(0, 0%, 4%)'
 
-const talents = ref<Talent[]>()
+const talents = ref<Talent[]>([])
 
-const talent = ref<Talent>()
+const talent = ref<string>()
+
+const talentData = computed(() => {
+  return talents.value.find((item) => item.id === talent.value)
+})
 
 const isSidebarOpen = ref<boolean>()
 
@@ -44,7 +32,7 @@ function turnSidebarOn() {
 }
 
 function turnSidebarOff() {
-  isSidebarOpen.value = false
+  if (isSidebarOpen.value) isSidebarOpen.value = false
 }
 
 onMounted(async () => {
@@ -72,30 +60,36 @@ onUnmounted(() => {
     </header>
     <FeaturedArt
       class="featured-art"
-      :path="`/assets/icons/${talent?.id}/fullbody/resized.png`"
+      :path="`/assets/icons/${talentData?.id}/fullbody/resized.png`"
     ></FeaturedArt>
     <div class="days empty" v-if="!talent">
-      <p>Select a talent</p>
-      <select v-model="talent">
-        <option v-for="talent in talents" :key="talent.id" :value="talent">
-          {{ talent.name }}
-        </option>
-      </select>
+      <TalentDropdown
+        :talents="
+          talents.map((item) => {
+            return item.id
+          }) as string[]
+        "
+        v-model:current="talent"
+        @closeSidebar="turnSidebarOff"
+      />
     </div>
-    <DaysContainer class="days" :timezone="timezone" :talent="talent" v-else />
+    <DaysContainer class="days" :timezone="timezone" :talent="talentData" v-else />
     <div class="sidebar" :class="{ open: isSidebarOpen }">
       <button class="close-button" @click="turnSidebarOff">X</button>
       <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
-      <p>Select a talent</p>
-      <select v-model="talent" @change="turnSidebarOff">
-        <option v-for="talent in talents" :key="talent.id" :value="talent">
-          {{ talent.name }}
-        </option>
-      </select>
+      <TalentDropdown
+        :talents="
+          talents.map((item) => {
+            return item.id
+          }) as string[]
+        "
+        v-model:current="talent"
+        @closeSidebar="turnSidebarOff"
+      />
     </div>
     <div class="sidebar-overlay" :class="{ open: isSidebarOpen }" @click="turnSidebarOff"></div>
 
-    <div class="border" :style="`--border: ${talent?.color3}`">
+    <div class="border" :style="`--border: ${talentData?.color3}`">
       <div></div>
       <div></div>
       <div></div>
@@ -103,7 +97,7 @@ onUnmounted(() => {
 
     <div
       class="container__crawling-banner"
-      :style="[{ '--bg-color': talent?.color2 }, { '--border-color': talent?.color1 }]"
+      :style="[{ '--bg-color': talentData?.color2 }, { '--border-color': talentData?.color1 }]"
     >
       <div class="crawling-banner">
         <span>phase connect</span>
@@ -113,10 +107,10 @@ onUnmounted(() => {
 
     <div
       class="container__details"
-      :style="[{ '--bg-color': talent?.color2 }, { '--border-color': talent?.color1 }]"
+      :style="[{ '--bg-color': talentData?.color2 }, { '--border-color': talentData?.color1 }]"
     >
-      <span>{{ talent?.name }}</span>
-      <span>{{ talent?.genName }}</span>
+      <span>{{ talentData?.name }}</span>
+      <span>{{ talentData?.genName }}</span>
     </div>
   </div>
 </template>

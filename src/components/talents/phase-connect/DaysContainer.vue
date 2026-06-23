@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Talent } from '@/types/talent-data-supabase'
 import { computed, ref, useTemplateRef, watch } from 'vue'
 import {
   breakpointsVuetifyV3,
@@ -11,22 +12,6 @@ import DayDisplay from '@/components/talents/phase-connect/DayDisplay.vue'
 import { getDayWeek, getMonthShortDate, getYMD, isWithinSevenDays } from '@/utils/dates'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
 import ScrollMore from './ScrollMore.vue'
-
-interface Talent {
-  id: string
-  name: string
-  channelId: string
-  gen: number
-  genName: string
-  color1: string
-  color2: string
-  color3: string
-  debut: string
-  birthmonth: number
-  birthdate: number
-  data?: StreamWrapper[]
-  restMessage: string
-}
 
 const props = defineProps<{
   timezone: string
@@ -325,10 +310,6 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   opacity: 1;
 
   transition: opacity 700ms;
-}
-
-.scroll-more span {
-  white-space: nowrap;
 }
 
 .no-schedule {
