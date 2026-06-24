@@ -34,16 +34,16 @@ const keyframes = ref([
     offset: 0.001,
   },
   {
-    transform: 'scale(250%) translateY(23%) translateX(-100%) ',
+    transform: 'scale(150%) translateY(12.5%) translateX(-100%) ',
     offset: 0.002,
   },
   {
-    transform: 'scale(250%) translateY(23%) translateX(0%)',
+    transform: 'scale(150%) translateY(12.5%) translateX(0%)',
     opacity: 1,
     offset: 0.3,
   },
   {
-    transform: 'scale(250%) translateY(23%) translateX(20%)',
+    transform: 'scale(150%) translateY(12.5%) translateX(20%)',
     opacity: 0,
     offset: 0.4,
   },
@@ -98,13 +98,12 @@ const { play, cancel } = useAnimate(img, keyframes, {
 <style scoped lang="scss">
 .featured-art {
   overflow: hidden;
+  height: 100%;
 }
 
 .featured-art img {
   object-fit: contain;
-  object-position: center center;
   height: 100%;
-  max-height: 600px;
   width: 100%;
 
   z-index: 0;
