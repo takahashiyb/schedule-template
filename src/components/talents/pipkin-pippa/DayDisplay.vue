@@ -1,197 +1,148 @@
 <script setup lang="ts">
-import {
-  getDayWeek,
-  getMonthShortDate,
-  getShortTime,
-  isToday,
-  isWithinSevenDays,
-} from '@/utils/dates'
-import { useElementBounding } from '@vueuse/core'
-import { useTemplateRef } from 'vue'
+// import { useElementBounding } from '@vueuse/core'
+// import { useTemplateRef } from 'vue'
 
-interface StreamItem {
+import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
+import { getShortTime } from '@/utils/dates'
+import type { StreamWrapper } from '@/types/youtube-streaming-list'
+
+interface Talent {
   id: string
-  liveStreamingDetails: {
-    scheduledStartTime: string
-  }
-
-  snippet: {
-    title: string
-    liveBroadcastContent: string
-  }
+  name: string
+  channelId: string
+  gen: number
+  genName: string
+  color1: string
+  color2: string
+  color3: string
 }
 
-const ref = useTemplateRef('card')
-const { y } = useElementBounding(ref)
+const props = defineProps<{ event: StreamWrapper; timezone: string; talent?: Talent }>()
 
-const props = defineProps<{
-  data: StreamItem
-  timezone: string
-  containerTop: number
-  containerBottom: number
-}>()
+const breakpoints = useBreakpoints(breakpointsVuetifyV3)
+
+const medium = breakpoints.greater('sm')
+const large = breakpoints.greater('md')
+
+// const { y } = useElementBounding(ref)
 </script>
 
 <template>
   <div
-    class="card"
-    ref="card"
-    :style="{
-      transform: y
-        ? `translateX(${Math.max(
-            ((y - containerTop) / ((containerBottom - containerTop) / 2) - 1) * 80,
-            0,
-          )}%)`
-        : '',
+    class="time"
+    :class="{
+      medium: medium,
+      large: large,
+      live: props.event.items[0]!.snippet.liveBroadcastContent === 'live',
     }"
   >
-    <img
-      class="upNext"
-      src="/assets/icons/pipkin-pippa/Up Next.svg"
-      v-if="props.data.snippet.liveBroadcastContent === 'upcoming'"
-    />
-    <img
-      class="upNext"
-      src="/assets/icons/pipkin-pippa/Up Next Live.svg"
-      v-else-if="props.data.snippet.liveBroadcastContent === 'live'"
-    />
-    <a :href="`https://www.youtube.com/watch?v=${props.data.id}`" target="_blank" class="title">{{
-      props.data.snippet.title
-    }}</a>
-    <span
-      class="pill day"
-      v-if="isWithinSevenDays(props.data.liveStreamingDetails.scheduledStartTime)"
-      >{{
-        isToday(props.data.liveStreamingDetails.scheduledStartTime)
-          ? 'Today'
-          : getDayWeek(props.data.liveStreamingDetails.scheduledStartTime, timezone)
-      }}</span
-    >
-    <span class="pill date">{{
-      getMonthShortDate(props.data.liveStreamingDetails.scheduledStartTime, timezone)
-    }}</span>
-    <span class="pill time">{{
-      getShortTime(props.data.liveStreamingDetails.scheduledStartTime, timezone)
-    }}</span>
+    <div class="title">
+      <p>
+        {{ props.event.items[0]!.snippet.title }}
+      </p>
+    </div>
+    <p class="time-display">
+      {{
+        props.event.items[0]!.snippet.liveBroadcastContent === 'live'
+          ? 'LIVE'
+          : getShortTime(props.event.items[0]!.liveStreamingDetails.scheduledStartTime, timezone)
+      }}
+    </p>
+    <img class="arm-ribbon" src="/public/assets/icons/pipkin-pippa/Arm Ribbon 2.svg" alt="" />
   </div>
 </template>
+<style scoped lang="scss">
+@use '/src/assets/styles/talents/pipkin-pippa.scss' as s;
 
-<style scooped lang="scss">
-@use '@/assets/styles/talents/pipkin-pippa.scss' as s;
-.card {
+.time {
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: 60% 5% 35%;
+  grid-template-columns: repeat(16, 1fr);
   align-items: center;
-
-  width: 65%;
-  aspect-ratio: 4/1;
-
-  transition: transform 0.3s ease-out;
 }
 
-.card:first-child {
+.time.large {
+  grid-template-rows: repeat(6, 1fr);
+}
+
+.time-display {
+  --border-color: hsl(#{s.$white});
+
+  background-color: hsl(s.$violet);
+  color: hsl(s.$white);
+
+  padding-inline: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+
+  border: 4px var(--border-color) solid;
+  border-radius: 1em;
+
+  grid-column: 1/17;
+  grid-row: 2;
+  justify-self: start;
+}
+
+.time.medium .time-display {
+  padding-inline: 1em;
+
+  border-radius: 9em;
+}
+
+.time.medium .time-display {
+  grid-row: 4/7;
+  grid-column: 1/8;
+}
+
+.title {
+  --border-color: hsl(#{s.$hot-pink});
+
+  background-color: hsl(s.$white);
+  color: hsl(s.$hot-pink);
+
+  padding-inline: 12px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+
+  border: 4px var(--border-color) solid;
+
+  border-radius: 1em;
+
+  grid-column: 1/17;
+  grid-row: 1;
+}
+
+.time.medium .title {
+  padding-inline: 1em;
+
+  border-radius: 3em;
+
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.time.medium .title p {
+  grid-column: 2/14;
+}
+
+.time.medium .title {
+  grid-column: 2/16;
+  grid-row: 1/5;
+}
+
+.time:nth-child(odd):last-child .title {
+  text-align: center;
+}
+
+.arm-ribbon {
+  grid-row: 1/5;
+  // grid-row: 4/7;
+  grid-column: 15/17;
+
   aspect-ratio: 2/1;
-}
-
-.card:first-child {
-  grid-row: 1/3;
-
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: 50% 15% 15% 2.5% 17.5%;
-
-  align-items: center;
-
-  margin-top: 55px;
-}
-
-.card .upNext {
   display: none;
 }
 
-.card:first-child .upNext {
-  display: block;
-  grid-column: 1/4;
-  grid-row: 1/3;
-  justify-self: center;
-
-  height: 100%;
-  padding-inline: 16px;
-}
-
-.card:first-child .title {
-  grid-row: 2/5;
-}
-
-.card:first-child .pill {
-  grid-row: 4/6;
-}
-
-.card .title {
-  --color: hsl(#{s.$hot-brown});
-  --bg-color: hsl(#{s.$white});
-  --border-color: hsl(#{s.$black});
-
-  grid-column: 2/-2;
-  grid-row: 1/3;
-
-  background-color: var(--bg-color);
-  color: var(--color);
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  text-decoration: none;
-  @include f.responsive-type(s.$font-6-eb, s.$font-4-eb, s.$font-4-eb);
-
-  display: grid;
-  align-items: center;
-
-  padding-inline: 16px;
-
-  border: 4px var(--border-color) solid;
-  border-radius: 9em;
-}
-
-.card .pill {
-  --color: hsl(#{s.$white});
-  --bg-color: hsl(#{s.$violet});
-  --border-color: hsl(#{s.$white});
-
-  grid-row: 2/4;
-
-  width: 100%;
-  height: 100%;
-  background-color: var(--bg-color);
-  color: var(--color);
-  text-align: center;
-  @include f.responsive-type(s.$font-6-eb, s.$font-4-eb, s.$font-4-eb);
-
-  display: grid;
-  align-items: center;
-
-  border: 4px var(--border-color) solid;
-  border-radius: 9em;
-}
-
-.card .day {
-  --color: hsl(#{s.$white});
-  --bg-color: hsl(#{s.$hot-pink});
-  --border-color: hsl(#{s.$white});
-  grid-column: 1/3;
-}
-
-.card .time {
-  --color: hsl(#{s.$white});
-  --bg-color: hsl(#{s.$violet});
-  --border-color: hsl(#{s.$white});
-  grid-column: 7/-1;
-}
-
-.card .date {
-  --color: hsl(#{s.$hot-brown});
-  --bg-color: hsl(#{s.$base-pink});
-  --border-color: hsl(#{s.$white});
-  grid-column: 4/6;
+.time.medium:nth-child(odd):last-child .arm-ribbon {
+  display: inline-block;
 }
 </style>
