@@ -14,15 +14,35 @@ function update() {
   emit('update:current', talent.value)
   emit('closeSidebar')
 }
+
+function getGens() {
+  return [
+    ...new Map(
+      talents.value.map((item) => [item.gen, { id: item.gen, name: item.genName }]),
+    ).values(),
+  ]
+}
 </script>
 
 <template>
   <div>
     <p>Select a talent</p>
     <select v-model="talent" @change="update">
-      <option v-for="talent in talents" :key="talent.id" :value="talent.id">
-        {{ talent.name }}
-      </option>
+      <optgroup v-for="gen in getGens()" :label="gen.name" :key="`optionGen-${gen.id}`">
+        <option
+          v-for="talent in talents.filter((items) => items.gen !== gen.id)"
+          :key="talent.id"
+          :value="talent.id"
+        >
+          {{ talent.name }}
+        </option>
+      </optgroup>
     </select>
   </div>
 </template>
+
+<style scoped lang="scss">
+optgroup {
+  text-transform: uppercase;
+}
+</style>
