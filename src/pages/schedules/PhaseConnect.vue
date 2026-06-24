@@ -1,17 +1,31 @@
 <script setup lang="ts">
 import type { Talent } from '@/types/talent-data-supabase'
-import { breakpointsVuetifyV3, useBreakpoints } from '@vueuse/core'
+import { breakpointsVuetifyV3, useBreakpoints, useDateFormat, useNow } from '@vueuse/core'
 import DaysContainer from '@/components/talents/phase-connect/DaysContainer.vue'
 import { setBg } from '@/utils/background'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
 import { supabase } from '@/lib/supabase'
 import FeaturedArt from '@/components/talents/phase-connect/FeaturedArt.vue'
 import TalentDropdown from '@/components/talents/phase-connect/TalentDropdown.vue'
+import { pickTextColor } from '@/utils/color'
 
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
 const medium = breakpoints.greater('sm')
 const large = breakpoints.greater('md')
+
+const now = useNow()
+
+const timeFormat = shallowRef('HH:mm:ss')
+const dateFormat = shallowRef('MM-DD')
+const dayFormat = shallowRef('dddd')
+const timezoneFormat = shallowRef('zzzz')
+
+const lang = shallowRef('en-US')
+const time = useDateFormat(now, timeFormat, { locales: lang })
+const date = useDateFormat(now, dateFormat, { locales: lang })
+const day = useDateFormat(now, dayFormat, { locales: lang })
+const timezoneDisplay = useDateFormat(now, timezoneFormat, { locales: lang })
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 
@@ -58,35 +72,26 @@ onUnmounted(() => {
       <h1>Schedule</h1>
       <button class="side-button" @click="turnSidebarOn">|||</button>
     </header>
+
     <FeaturedArt
       class="featured-art"
       :path="`/assets/icons/${talentData?.id}/fullbody/resized.png`"
     ></FeaturedArt>
+
     <div class="days empty" v-if="!talent">
-      <TalentDropdown
-        :talents="
-          talents.map((item) => {
-            return item.id
-          }) as string[]
-        "
-        v-model:current="talent"
-        @closeSidebar="turnSidebarOff"
-      />
+      <TalentDropdown :talents="talents" v-model:current="talent" @closeSidebar="turnSidebarOff" />
     </div>
+
     <DaysContainer class="days" :timezone="timezone" :talent="talentData" v-else />
+
     <div class="sidebar" :class="{ open: isSidebarOpen }">
       <button class="close-button" @click="turnSidebarOff">X</button>
       <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
-      <TalentDropdown
-        :talents="
-          talents.map((item) => {
-            return item.id
-          }) as string[]
-        "
-        v-model:current="talent"
-        @closeSidebar="turnSidebarOff"
-      />
+      <TalentDropdown :talents="talents" v-model:current="talent" @closeSidebar="turnSidebarOff" />
+
+      <span class="timezone">{{ timezoneDisplay }} - {{ timezone }}</span>
     </div>
+
     <div class="sidebar-overlay" :class="{ open: isSidebarOpen }" @click="turnSidebarOff"></div>
 
     <div class="border" :style="`--border: ${talentData?.color3}`">
@@ -97,7 +102,13 @@ onUnmounted(() => {
 
     <div
       class="container__crawling-banner"
-      :style="[{ '--bg-color': talentData?.color2 }, { '--border-color': talentData?.color1 }]"
+      :style="[
+        { '--bg-color': talentData?.color2 },
+        { '--border-color': talentData?.color1 },
+        {
+          '--text-color': pickTextColor(talentData?.color2 ? talentData?.color2 : '0, 0%, 0%'),
+        },
+      ]"
     >
       <div class="crawling-banner">
         <span>phase connect</span>
@@ -107,10 +118,25 @@ onUnmounted(() => {
 
     <div
       class="container__details"
-      :style="[{ '--bg-color': talentData?.color2 }, { '--border-color': talentData?.color1 }]"
+      :style="[
+        { '--bg-color': talentData?.color2 },
+        { '--border-color': talentData?.color1 },
+        {
+          '--text-color': pickTextColor(talentData?.color2 ? talentData?.color2 : '0, 0%, 0%'),
+        },
+      ]"
     >
-      <span>{{ talentData?.name }}</span>
-      <span>{{ talentData?.genName }}</span>
+      <span class="talent-detail">{{ talentData?.name }}</span>
+      <span class="talent-detail">{{ talentData?.genName }}</span>
+      <div style="display: grid">
+        <span
+          class="now date"
+          :style="talentData?.color1 ? `--color: ${talentData?.color1}` : ''"
+          >{{ date }}</span
+        >
+        <span class="now day">{{ day }}</span>
+        <span class="now time">{{ time }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -251,9 +277,8 @@ header img {
 }
 
 .sidebar {
-  display: grid;
-  align-items: start;
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: 20px;
 
   position: absolute;
@@ -291,7 +316,7 @@ header img {
 }
 
 .sidebar .close-button {
-  justify-self: end;
+  align-self: end;
   background-color: white;
   height: 40px;
   width: 40px;
@@ -306,6 +331,14 @@ header img {
 .sidebar select:hover,
 .sidebar option:hover {
   cursor: pointer;
+}
+
+.sidebar :nth-last-child(2) {
+  flex: 1;
+}
+
+.sidebar .timezone {
+  align-self: end;
 }
 
 .sidebar-overlay {
@@ -380,12 +413,14 @@ header img {
 }
 
 .container__crawling-banner {
+  --text-color: '0, 0%, 0%';
+
   grid-column: 1;
   grid-row: 2;
   align-self: start;
   justify-self: start;
 
-  color: black;
+  color: hsl(var(--text-color));
   height: 184px;
   aspect-ratio: 1/1;
 
@@ -424,8 +459,6 @@ header img {
   align-self: end;
   justify-self: end;
 
-  color: black;
-
   display: grid;
   align-items: start;
   text-align: end;
@@ -436,6 +469,7 @@ header img {
 }
 
 .page.large .container__details {
+  --text-color: 0, 0%, 100%;
   align-self: end;
   justify-self: start;
   text-align: start;
@@ -444,7 +478,8 @@ header img {
   padding-bottom: 48px;
 }
 
-.container__details span {
+.container__details .talent-detail {
+  color: hsl(var(--text-color));
   background-color: hsl(var(--bg-color));
 
   corner-shape: bevel;
@@ -454,7 +489,7 @@ header img {
   padding-left: 48px;
 }
 
-.page.large .container__details span {
+.page.large .container__details .talent-detail {
   background-color: hsl(var(--bg-color));
 
   corner-shape: bevel;
@@ -462,6 +497,30 @@ header img {
   border-bottom-left-radius: 0;
   padding-left: 24px;
   padding-right: 48px;
+}
+
+.container__details .now {
+  display: none;
+  color: white;
+  padding-inline: 24px;
+}
+
+.page.medium .container__details .now {
+  display: inline-block;
+}
+
+.page .container__details .date {
+  --color: 0, 0%, 100%;
+
+  color: hsl(var(--color));
+}
+
+.page.medium .container__details .date {
+  font-size: 32px;
+}
+
+.page.large .container__details .date {
+  font-size: 48px;
 }
 
 @keyframes crawl {
