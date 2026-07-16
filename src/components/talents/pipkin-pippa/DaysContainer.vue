@@ -8,11 +8,11 @@ import {
   useDebounceFn,
   useTimeout,
 } from '@vueuse/core'
-import PhaseConnect from '@/components/talents/phase-connect/DayDisplay.vue'
+import Daydisplay from '@/components/talents/pipkin-pippa/DayDisplay.vue'
 import { getDayWeek, getMonthShortDate, getYMD, isWithinSevenDays } from '@/utils/dates'
 import type { StreamWrapper } from '@/types/youtube-streaming-list'
-import ScrollMore from '@/components/talents/phase-connect/ScrollMore.vue'
-import RestDay from '@/components/talents/phase-connect/RestDay.vue'
+import ScrollMore from '@/components/talents/pipkin-pippa/ScrollMore.vue'
+import RestDay from '@/components/talents/pipkin-pippa/RestDay.vue'
 
 const props = defineProps<{
   timezone: string
@@ -117,7 +117,7 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
         {{ talent?.restMessage ? talent.restMessage : 'REST DAY' }}</RestDay
       >
       <div class="time-container" v-else>
-        <PhaseConnect
+        <Daydisplay
           class="time"
           v-for="(value, index) in time.sort(
             (acc, curr) =>
@@ -128,7 +128,7 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
           :event="value"
           :timezone="props.timezone"
           :talent="props.talent"
-        ></PhaseConnect>
+        ></Daydisplay>
       </div>
     </div>
     <button
@@ -155,10 +155,16 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   </section>
 </template>
 <style scoped lang="scss">
+@use '/src/assets/styles/talents/pipkin-pippa.scss' as s;
+
 .days {
   --extra-bevel: 12px;
   --talent-color-1: '0, 0%, 0%';
   --talent-color-2: '0, 0%, 0%';
+
+  background: url('/assets/icons/pipkin-pippa/inconspicuous/png/horizontal.png');
+  background-size: cover;
+  background-position: center;
 
   display: flex;
   flex-direction: column;
@@ -173,90 +179,84 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
 }
 
 .days.medium {
-  --extra-bevel: 32px;
+  --extra-bevel: 9em;
 }
 
 .day {
   display: grid;
-  grid-template-columns: 120px auto;
+  grid-template-columns: 100px auto;
   gap: 8px;
   justify-items: center;
   align-items: center;
 }
 
 .days.medium .day {
-  grid-template-columns: 160px 5fr 5fr;
+  grid-template-columns: 124px 5fr 5fr;
   gap: 16px;
 }
 
 .days.large .day {
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 124px 1fr;
 }
 
 .days.xLarge .day {
-  grid-template-columns: 200px 5fr 5fr;
+  grid-template-columns: 124px 5fr 5fr;
 }
 
 .date {
-  --date-bevel: 24px;
+  --border-color: hsl(#{s.$white});
 
-  grid-column: 1;
-  grid-row: 1/-1;
-  align-self: start;
+  background-color: hsl(s.$hot-pink);
+  color: hsl(s.$white);
   text-align: center;
 
-  background-color: hsl(206, 8%, 17%);
-
-  color: hsl(206, 8%, 100%);
-  width: 100%;
-
-  padding-inline: var(--date-bevel);
+  padding-inline: 12px;
   padding-top: 8px;
   padding-bottom: 8px;
 
-  border-bottom-left-radius: var(--date-bevel);
-  border-top-right-radius: var(--date-bevel);
-  corner-shape: bevel;
-  border: hsla(var(--talent-color-2), 0.6) 2px solid;
+  border: 4px var(--border-color) solid;
+  border-radius: 1em;
 
-  box-shadow: 0 0px 12px 8px hsla(var(--talent-color-1), 0.4);
+  grid-row: 1;
+  justify-self: stretch;
+  align-self: start;
 }
 
 .days.medium .date {
-  --date-bevel: 32px;
+  padding-inline: 1em;
+  border-radius: 9em;
 }
 
-.rest,
 .return {
+  --border-color: hsl(#{s.$white});
+
+  background-color: hsl(s.$violet);
+  color: hsl(s.$white);
+
   grid-column: 2/4;
   text-align: center;
 
   width: 100%;
-  background-color: hsl(206, 8%, 17%);
-  color: hsl(206, 8%, 100%);
 
   padding-inline: var(--extra-bevel);
   padding-top: 8px;
   padding-bottom: 8px;
 
-  border-bottom-left-radius: var(--extra-bevel);
-  border-top-right-radius: var(--extra-bevel);
-  corner-shape: bevel;
+  border: 4px var(--border-color) solid;
+  border-radius: 1em;
 
-  border: hsla(var(--talent-color-2), 0.6) 2px solid;
-
-  box-shadow: 0 0px 12px 8px hsla(var(--talent-color-1), 0.4);
-}
-
-.return {
   margin-top: 10%;
   margin-bottom: 10%;
+}
+
+.days.medium .return {
+  border-radius: 9em;
 }
 
 .return:hover {
   cursor: pointer;
 
-  box-shadow: 0 0px 8px 4px hsla(206, 8%, 100%, 0.7);
+  box-shadow: 0 0px 8px 4px hsla(0, 7%, 11%, 0.7);
 }
 
 .time-container {

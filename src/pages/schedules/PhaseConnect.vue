@@ -1,19 +1,60 @@
 <script setup lang="ts">
+import type { Component } from 'vue'
 import type { Talent } from '@/types/talent-data-supabase'
-import { breakpointsVuetifyV3, useBreakpoints, useDateFormat, useNow } from '@vueuse/core'
-import DaysContainer from '@/components/talents/phase-connect/DaysContainer.vue'
-import { setBg } from '@/utils/background'
 import { computed, onMounted, onUnmounted, ref, shallowRef } from 'vue'
+import { breakpointsVuetifyV3, useBreakpoints, useDateFormat, useNow } from '@vueuse/core'
 import { supabase } from '@/lib/supabase'
-import FeaturedArt from '@/components/talents/phase-connect/FeaturedArt.vue'
+import { setBg } from '@/utils/background'
+
 import TalentDropdown from '@/components/talents/phase-connect/TalentDropdown.vue'
 import { pickTextColor } from '@/utils/color'
 
+// Talent Specific Components
+
+import PhaseConnectDays from '@/components/talents/phase-connect/DaysContainer.vue'
+import PipkinPippaDays from '@/components/talents/pipkin-pippa/DaysContainer.vue'
+
+import PhaseConnectFeaturedArt from '@/components/talents/phase-connect/FeaturedArt.vue'
+import PipkinPippaFeaturedArt from '@/components/talents/pipkin-pippa/FeaturedArt.vue'
+
+type Theme = 'phase-connect' | 'pipkin-pippa'
+
+interface ThemeComponents {
+  code: string
+  name: string
+  days: Component
+  featuredArt: Component
+}
+
+const themes: Record<Theme, ThemeComponents> = {
+  'phase-connect': {
+    code: 'phase-connect',
+    name: 'Phase Connect',
+    days: PhaseConnectDays,
+    featuredArt: PhaseConnectFeaturedArt,
+  },
+  'pipkin-pippa': {
+    code: 'pipkin-pippa',
+    name: 'Pipkin Pippa',
+    days: PipkinPippaDays,
+    featuredArt: PipkinPippaFeaturedArt,
+  },
+}
+
+const theme = ref<Theme>('pipkin-pippa')
+
+const customTheme = ref<boolean>(false)
+
+const fixedTheme = ref<boolean>(false)
+
+// #region Breakpoints
 const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
 const medium = breakpoints.greater('sm')
 const large = breakpoints.greater('md')
+//#endregion
 
+// #region Time and its Formats
 const now = useNow()
 
 const timeFormat = shallowRef('HH:mm:ss')
@@ -28,6 +69,7 @@ const day = useDateFormat(now, dayFormat, { locales: lang })
 const timezoneDisplay = useDateFormat(now, timezoneFormat, { locales: lang })
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+// #endregion
 
 const background = 'hsl(0, 0%, 4%)'
 
@@ -49,6 +91,34 @@ function turnSidebarOff() {
   if (isSidebarOpen.value) isSidebarOpen.value = false
 }
 
+function changeTheme() {
+  if (customTheme.value === false) {
+    theme.value = 'phase-connect'
+    return
+  }
+
+  if (
+    customTheme.value === true &&
+    fixedTheme.value === false &&
+    !Object.keys(themes).find((item) => item === talent.value)
+  ) {
+    console.log('hello')
+    theme.value = 'phase-connect'
+    return
+  }
+
+  if (
+    customTheme.value === true &&
+    fixedTheme.value === false &&
+    Object.keys(themes).find((item) => item === theme.value)
+  ) {
+    console.log('hi')
+    theme.value = talent.value as Theme
+    return
+  }
+}
+
+//#region vue mounts
 onMounted(async () => {
   setBg(background)
 
@@ -64,6 +134,7 @@ onMounted(async () => {
 onUnmounted(() => {
   setBg('hsl(0, 0%, 100%)')
 })
+//#endregion
 </script>
 <template>
   <div class="page" :class="{ medium: medium, large: large }">
@@ -73,21 +144,57 @@ onUnmounted(() => {
       <button class="side-button" @click="turnSidebarOn">|||</button>
     </header>
 
-    <FeaturedArt
+    <Component
+      :is="themes[theme].featuredArt"
       class="featured-art"
       :path="`/assets/icons/${talentData?.id}/fullbody/resized.png`"
-    ></FeaturedArt>
+    ></Component>
 
     <div class="days empty" v-if="!talent">
-      <TalentDropdown :talents="talents" v-model:current="talent" @closeSidebar="turnSidebarOff" />
+      <TalentDropdown
+        :talents="talents"
+        v-model:current="talent"
+        @closeSidebar="turnSidebarOff"
+        @change="changeTheme"
+      />
     </div>
 
-    <DaysContainer class="days" :timezone="timezone" :talent="talentData" v-else />
+    <Component
+      :is="themes[theme].days"
+      class="days"
+      :timezone="timezone"
+      :talent="talentData"
+      v-else
+    />
 
     <div class="sidebar" :class="{ open: isSidebarOpen }">
       <button class="close-button" @click="turnSidebarOff">X</button>
+
       <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
-      <TalentDropdown :talents="talents" v-model:current="talent" @closeSidebar="turnSidebarOff" />
+
+      <TalentDropdown
+        :talents="talents"
+        v-model:current="talent"
+        @closeSidebar="turnSidebarOff"
+        @change="changeTheme"
+      />
+
+      <label
+        ><input type="checkbox" v-model="customTheme" @change="changeTheme" />use special
+        themes</label
+      >
+
+      <label v-if="customTheme"
+        ><input type="checkbox" v-model="fixedTheme" @change="changeTheme" />use fixed themes</label
+      >
+
+      <select v-model="theme" v-if="customTheme && fixedTheme">
+        <option v-for="value in themes" :value="value.code" :key="value.code" @change="changeTheme">
+          {{ value.name }}
+        </option>
+      </select>
+
+      <div></div>
 
       <span class="timezone">{{ timezoneDisplay }} - {{ timezone }}</span>
     </div>

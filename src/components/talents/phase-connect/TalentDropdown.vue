@@ -30,7 +30,7 @@ function getGens() {
     <select v-model="talent" @change="update">
       <optgroup v-for="gen in getGens()" :label="gen.name" :key="`optionGen-${gen.id}`">
         <option
-          v-for="talent in talents.filter((items) => items.gen !== gen.id)"
+          v-for="talent in talents.filter((items) => items.gen === gen.id)"
           :key="talent.id"
           :value="talent.id"
         >

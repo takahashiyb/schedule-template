@@ -48,7 +48,7 @@ const large = breakpoints.greater('md')
           : getShortTime(props.event.items[0]!.liveStreamingDetails.scheduledStartTime, timezone)
       }}
     </p>
-    <img class="arm-ribbon" src="/public/assets/icons/pipkin-pippa/Arm Ribbon 2.svg" alt="" />
+    <img class="arm-ribbon" src="/assets/icons/pipkin-pippa/Arm Ribbon 2.svg" alt="" />
   </div>
 </template>
 <style scoped lang="scss">
@@ -98,6 +98,8 @@ const large = breakpoints.greater('md')
 
   background-color: hsl(s.$white);
   color: hsl(s.$hot-pink);
+  min-height: 100%;
+  text-align: center;
 
   padding-inline: 12px;
   padding-top: 8px;
@@ -113,6 +115,7 @@ const large = breakpoints.greater('md')
 
 .time.medium .title {
   padding-inline: 1em;
+  padding-bottom: 1em;
 
   border-radius: 3em;
 
@@ -125,7 +128,9 @@ const large = breakpoints.greater('md')
 }
 
 .time.medium .title {
-  grid-column: 2/16;
+  border-radius: 9em 3em 3em 9em;
+
+  grid-column: 2/17;
   grid-row: 1/5;
 }
 
