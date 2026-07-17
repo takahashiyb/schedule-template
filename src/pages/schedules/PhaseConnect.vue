@@ -10,38 +10,59 @@ import TalentDropdown from '@/components/talents/phase-connect/TalentDropdown.vu
 import { pickTextColor } from '@/utils/color'
 
 // Talent Specific Components
-
+// Days
 import PhaseConnectDays from '@/components/talents/phase-connect/DaysContainer.vue'
 import PipkinPippaDays from '@/components/talents/pipkin-pippa/DaysContainer.vue'
-
+// Featured Art
 import PhaseConnectFeaturedArt from '@/components/talents/phase-connect/FeaturedArt.vue'
 import PipkinPippaFeaturedArt from '@/components/talents/pipkin-pippa/FeaturedArt.vue'
+//Middle Border
+import PhaseConnectMidBorder from '@/components/talents/phase-connect/MidBorder.vue'
+import PipkinPippaMidBorder from '@/components/talents/pipkin-pippa/MidBorder.vue'
+// Container Detail
+import PhaseConnectTalentClock from '@/components/talents/phase-connect/TalentClock.vue'
+import PipkinPippaTalentClock from '@/components/talents/pipkin-pippa/TalentClock.vue'
+// Header
+import PhaseConnectHeaderDisplay from '@/components/talents/phase-connect/HeaderDisplay.vue'
+import PipkinPippaHeaderDisplay from '@/components/talents/pipkin-pippa/HeaderDisplay.vue'
 
 type Theme = 'phase-connect' | 'pipkin-pippa'
 
 interface ThemeComponents {
   code: string
   name: string
+  color: string
   days: Component
   featuredArt: Component
+  midBorder: Component
+  talentClock: Component
+  header: Component
 }
 
 const themes: Record<Theme, ThemeComponents> = {
   'phase-connect': {
     code: 'phase-connect',
     name: 'Phase Connect',
+    color: 'hsl(0, 0%, 4%)',
     days: PhaseConnectDays,
     featuredArt: PhaseConnectFeaturedArt,
+    midBorder: PhaseConnectMidBorder,
+    talentClock: PhaseConnectTalentClock,
+    header: PhaseConnectHeaderDisplay,
   },
   'pipkin-pippa': {
     code: 'pipkin-pippa',
     name: 'Pipkin Pippa',
+    color: 'hsl(25, 86%, 95%)',
     days: PipkinPippaDays,
     featuredArt: PipkinPippaFeaturedArt,
+    midBorder: PipkinPippaMidBorder,
+    talentClock: PipkinPippaTalentClock,
+    header: PipkinPippaHeaderDisplay,
   },
 }
 
-const theme = ref<Theme>('pipkin-pippa')
+const theme = ref<Theme>('phase-connect')
 
 const customTheme = ref<boolean>(false)
 
@@ -57,21 +78,15 @@ const large = breakpoints.greater('md')
 // #region Time and its Formats
 const now = useNow()
 
-const timeFormat = shallowRef('HH:mm:ss')
-const dateFormat = shallowRef('MM-DD')
-const dayFormat = shallowRef('dddd')
 const timezoneFormat = shallowRef('zzzz')
 
 const lang = shallowRef('en-US')
-const time = useDateFormat(now, timeFormat, { locales: lang })
-const date = useDateFormat(now, dateFormat, { locales: lang })
-const day = useDateFormat(now, dayFormat, { locales: lang })
 const timezoneDisplay = useDateFormat(now, timezoneFormat, { locales: lang })
 
 const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 // #endregion
 
-const background = 'hsl(0, 0%, 4%)'
+const background = ref<string>('hsl(0, 0%, 4%)')
 
 const talents = ref<Talent[]>([])
 
@@ -94,6 +109,8 @@ function turnSidebarOff() {
 function changeTheme() {
   if (customTheme.value === false) {
     theme.value = 'phase-connect'
+    background.value = themes[theme.value].color
+    setBg(background.value)
     return
   }
 
@@ -102,8 +119,9 @@ function changeTheme() {
     fixedTheme.value === false &&
     !Object.keys(themes).find((item) => item === talent.value)
   ) {
-    console.log('hello')
     theme.value = 'phase-connect'
+    background.value = themes[theme.value].color
+    setBg(background.value)
     return
   }
 
@@ -112,15 +130,22 @@ function changeTheme() {
     fixedTheme.value === false &&
     Object.keys(themes).find((item) => item === theme.value)
   ) {
-    console.log('hi')
     theme.value = talent.value as Theme
+    background.value = themes[theme.value].color
+    setBg(background.value)
+    return
+  }
+
+  if (customTheme.value === true && fixedTheme.value === true) {
+    background.value = themes[theme.value].color
+    setBg(background.value)
     return
   }
 }
 
 //#region vue mounts
 onMounted(async () => {
-  setBg(background)
+  setBg(background.value)
 
   const { data, error } = await supabase.from('phase-connect-schedules').select('*')
 
@@ -138,11 +163,7 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="page" :class="{ medium: medium, large: large }">
-    <header>
-      <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
-      <h1>Schedule</h1>
-      <button class="side-button" @click="turnSidebarOn">|||</button>
-    </header>
+    <Component :is="themes[theme].header" @openSidebar="turnSidebarOn"></Component>
 
     <Component
       :is="themes[theme].featuredArt"
@@ -167,7 +188,11 @@ onUnmounted(() => {
       v-else
     />
 
-    <div class="sidebar" :class="{ open: isSidebarOpen }">
+    <div
+      class="sidebar"
+      :class="{ open: isSidebarOpen }"
+      :style="[`background-color: ${background}`]"
+    >
       <button class="close-button" @click="turnSidebarOff">X</button>
 
       <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
@@ -188,8 +213,8 @@ onUnmounted(() => {
         ><input type="checkbox" v-model="fixedTheme" @change="changeTheme" />use fixed themes</label
       >
 
-      <select v-model="theme" v-if="customTheme && fixedTheme">
-        <option v-for="value in themes" :value="value.code" :key="value.code" @change="changeTheme">
+      <select v-model="theme" v-if="customTheme && fixedTheme" @change="changeTheme">
+        <option v-for="value in themes" :value="value.code" :key="value.code">
           {{ value.name }}
         </option>
       </select>
@@ -201,11 +226,11 @@ onUnmounted(() => {
 
     <div class="sidebar-overlay" :class="{ open: isSidebarOpen }" @click="turnSidebarOff"></div>
 
-    <div class="border" :style="`--border: ${talentData?.color3}`">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
+    <Component
+      :is="themes[theme].midBorder"
+      class="border"
+      :style="`--border: ${talentData?.color3}`"
+    ></Component>
 
     <div
       class="container__crawling-banner"
@@ -223,28 +248,11 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <div
-      class="container__details"
-      :style="[
-        { '--bg-color': talentData?.color2 },
-        { '--border-color': talentData?.color1 },
-        {
-          '--text-color': pickTextColor(talentData?.color2 ? talentData?.color2 : '0, 0%, 0%'),
-        },
-      ]"
-    >
-      <span class="talent-detail">{{ talentData?.name }}</span>
-      <span class="talent-detail">{{ talentData?.genName }}</span>
-      <div style="display: grid">
-        <span
-          class="now date"
-          :style="talentData?.color1 ? `--color: ${talentData?.color1}` : ''"
-          >{{ date }}</span
-        >
-        <span class="now day">{{ day }}</span>
-        <span class="now time">{{ time }}</span>
-      </div>
-    </div>
+    <Component
+      :is="themes[theme].talentClock"
+      :talentData="talentData"
+      v-if="talentData"
+    ></Component>
   </div>
 </template>
 <style scoped lang="scss">
@@ -253,6 +261,8 @@ onUnmounted(() => {
 .page {
   --bg-color: 0, 0%, 100%;
   --border-color: 206, 8%, 15%;
+
+  color: white;
 
   position: relative;
 
@@ -286,41 +296,6 @@ onUnmounted(() => {
   font-size: 1em;
 
   margin-inline: auto;
-}
-
-header {
-  align-self: center;
-
-  display: flex;
-  align-items: center;
-
-  padding-inline: 16px;
-}
-
-.page.large header {
-  order: 3;
-  grid-column: 3/6;
-  grid-row: 1;
-}
-
-h1 {
-  font-size: 1.5rem;
-  color: white;
-}
-
-.page.medium h1 {
-  font-size: 3rem;
-}
-
-header img {
-  max-height: 2rem;
-
-  object-fit: contain;
-  margin-right: auto;
-}
-
-.page.medium header img {
-  max-height: 3rem;
 }
 
 .page .featured-art {
@@ -370,19 +345,6 @@ header img {
   padding-right: 16px;
 }
 
-.side-button {
-  background-color: white;
-  height: 40px;
-  width: 40px;
-  border: none;
-  color: black;
-  font-size: 2rem;
-
-  margin-left: 10px;
-
-  cursor: pointer;
-}
-
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -396,8 +358,7 @@ header img {
 
   height: 100%;
   width: 250px;
-  background-color: hsl(206, 8%, 17%);
-  color: white;
+  background-color: hsl(0, 0%, 4%);
   transform: translateX(100%);
 
   transition: 300ms transform;
@@ -462,63 +423,6 @@ header img {
   display: inline-block;
 }
 
-.border {
-  --skew: 35deg;
-  --border: 0, 0%, 100%;
-
-  display: grid;
-  grid-column: 2/5;
-  grid-row: 2/3;
-
-  z-index: -1;
-  opacity: 0;
-}
-
-.page.large .border {
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-
-  opacity: 1;
-}
-
-.border div {
-  width: 70%;
-  background-color: hsl(206, 8%, 15%);
-  border-style: solid;
-  border-color: hsl(var(--border));
-}
-
-.border div:nth-child(1) {
-  grid-column: 2;
-  grid-row: 1;
-
-  transform: skewX(var(--skew));
-  transform-origin: top left; /* pivot point */
-
-  border-width: 4px 4px 0 4px;
-}
-
-.border div:nth-child(2) {
-  grid-column: 2;
-  grid-row: 2;
-
-  transform: skewX(calc(var(--skew) * -1));
-  transform-origin: bottom left; /* pivot point */
-
-  border-width: 0 4px 4px 4px;
-}
-
-.border div:nth-child(3) {
-  grid-column: 1;
-  grid-row: 3;
-  justify-self: end;
-  transform: skewX(calc(var(--skew) * -1));
-
-  transform-origin: top right; /* pivot point */
-
-  border-width: 4px 4px 4px 4px;
-}
-
 .container__crawling-banner {
   --text-color: '0, 0%, 0%';
 
@@ -558,76 +462,6 @@ header img {
   background-color: hsl(var(--bg-color));
   border: hsl(var(--border-color)) solid;
   border-width: 4px 0px;
-}
-
-.container__details {
-  grid-column: 1;
-  grid-row: 2;
-  align-self: end;
-  justify-self: end;
-
-  display: grid;
-  align-items: start;
-  text-align: end;
-  gap: 8px;
-  z-index: 2;
-
-  padding-bottom: 0px;
-}
-
-.page.large .container__details {
-  --text-color: 0, 0%, 100%;
-  align-self: end;
-  justify-self: start;
-  text-align: start;
-  gap: 24px;
-
-  padding-bottom: 48px;
-}
-
-.container__details .talent-detail {
-  color: hsl(var(--text-color));
-  background-color: hsl(var(--bg-color));
-
-  corner-shape: bevel;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 0;
-  padding-right: 24px;
-  padding-left: 48px;
-}
-
-.page.large .container__details .talent-detail {
-  background-color: hsl(var(--bg-color));
-
-  corner-shape: bevel;
-  border-bottom-right-radius: 24px;
-  border-bottom-left-radius: 0;
-  padding-left: 24px;
-  padding-right: 48px;
-}
-
-.container__details .now {
-  display: none;
-  color: white;
-  padding-inline: 24px;
-}
-
-.page.medium .container__details .now {
-  display: inline-block;
-}
-
-.page .container__details .date {
-  --color: 0, 0%, 100%;
-
-  color: hsl(var(--color));
-}
-
-.page.medium .container__details .date {
-  font-size: 32px;
-}
-
-.page.large .container__details .date {
-  font-size: 48px;
 }
 
 @keyframes crawl {
