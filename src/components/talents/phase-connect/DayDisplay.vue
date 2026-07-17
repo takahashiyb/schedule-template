@@ -66,6 +66,7 @@ $blur: 25px;
   text-align: start;
 
   background-color: hsl(206, 8%, 100%);
+  color: black;
 
   padding-inline: var(--time-bevel);
   padding-top: 8px;

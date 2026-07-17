@@ -162,10 +162,6 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   --talent-color-1: '0, 0%, 0%';
   --talent-color-2: '0, 0%, 0%';
 
-  background: url('/assets/icons/pipkin-pippa/inconspicuous/png/horizontal.png');
-  background-size: cover;
-  background-position: center;
-
   display: flex;
   flex-direction: column;
   gap: 40px;

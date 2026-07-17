@@ -23,6 +23,7 @@ const breakpoints = useBreakpoints(breakpointsVuetifyV3)
 
 const medium = breakpoints.greater('sm')
 const large = breakpoints.greater('md')
+const xlarge = breakpoints.greater('lg')
 
 // const { y } = useElementBounding(ref)
 </script>
@@ -33,6 +34,7 @@ const large = breakpoints.greater('md')
     :class="{
       medium: medium,
       large: large,
+      xlarge: xlarge,
       live: props.event.items[0]!.snippet.liveBroadcastContent === 'live',
     }"
   >
@@ -124,7 +126,7 @@ const large = breakpoints.greater('md')
 }
 
 .time.medium .title p {
-  grid-column: 2/14;
+  grid-column: 2/15;
 }
 
 .time.medium .title {
@@ -138,12 +140,32 @@ const large = breakpoints.greater('md')
   text-align: center;
 }
 
+.time.medium:nth-child(odd):last-child .title p {
+  grid-column: 2/14;
+}
+
+.time.large .title p {
+  grid-column: 2/14;
+}
+
+.time.xlarge .title p {
+  grid-column: 2/15;
+}
+
 .arm-ribbon {
   grid-row: 1/5;
   // grid-row: 4/7;
   grid-column: 15/17;
 
   aspect-ratio: 2/1;
+  display: none;
+}
+
+.time.large .arm-ribbon {
+  display: inline-block;
+}
+
+.time.xlarge .arm-ribbon {
   display: none;
 }
 
