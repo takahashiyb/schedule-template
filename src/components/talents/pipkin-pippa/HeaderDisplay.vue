@@ -35,6 +35,7 @@ header {
 
   margin-left: 16px;
 }
+
 .page.medium header {
   border-radius: 9em;
   margin-inline: 16px;
@@ -51,8 +52,8 @@ h1 {
   font-size: 1.5rem;
 }
 
-.page.medium h1 {
-  font-size: 3rem;
+.page.large h1 {
+  font-size: 2.5rem;
 }
 
 header .logo {
