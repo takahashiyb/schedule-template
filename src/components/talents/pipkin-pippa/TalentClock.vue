@@ -43,7 +43,7 @@ const day = useDateFormat(now, dayFormat, { locales: lang })
         >{{ date }}</span
       >
     </div>
-    <img class="bunny-blue" src="/public/assets/icons/pipkin-pippa/Bunny Blue.png" alt="" />
+    <img class="bunny-blue" src="/assets/icons/pipkin-pippa/Bunny Blue.png" alt="" />
   </div>
 </template>
 <style scoped lang="scss">
@@ -151,7 +151,7 @@ const day = useDateFormat(now, dayFormat, { locales: lang })
 
 .page.medium .bunny-blue {
   display: inline-block;
-  max-height: 250px;
+  max-height: 240px;
 }
 
 .page.large .bunny-blue {
