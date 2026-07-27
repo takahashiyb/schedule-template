@@ -2,7 +2,16 @@
 
 <template>
   <div class="border" style="clip-path: url(#curved)">
-    <div></div>
+    <img
+      class="small"
+      src="/public/assets/icons/pipkin-pippa/inconspicuous/png/horizontal.png"
+      alt=""
+    />
+    <img
+      class="large"
+      src="/public/assets/icons/pipkin-pippa/inconspicuous-border/png/horizontal.png"
+      alt=""
+    />
   </div>
 </template>
 
@@ -26,18 +35,35 @@
   grid-row: 2/3;
 }
 
-.border div:nth-child(1) {
-  background: url('/assets/icons/pipkin-pippa/inconspicuous/png/horizontal.png');
-  background-size: cover;
-  background-position: center;
+.border img {
+  object-fit: cover;
+  object-position: center;
+  min-height: 100%;
 
   grid-column: 1/5;
   grid-row: 1/4;
 }
 
-.page.large .border div:nth-child(1) {
-  background: url('/assets/icons/pipkin-pippa/inconspicuous-border/png/horizontal.png');
-  background-size: cover;
-  background-position: left top;
+.page.large .border img {
+  object-fit: cover;
+  object-position: left;
+  min-height: none;
+  min-width: 100%;
+}
+
+.page .border img.small {
+  display: inline-block;
+}
+
+.page .border img.large {
+  display: none;
+}
+
+.page.large .border img.small {
+  display: none;
+}
+
+.page.large .border img.large {
+  display: inline-block;
 }
 </style>
