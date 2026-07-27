@@ -5,9 +5,11 @@ import { ref, useTemplateRef, watch } from 'vue'
 const props = defineProps<{ path?: string }>()
 
 const imgSrc = ref(props.path)
+const errorImg = ref(false)
 
 function handleError() {
-  imgSrc.value = '/assets/icons/PhaseConnect_Header_Logo.png'
+  imgSrc.value = '/assets/icons/pipkin-pippa/bunny logo.png'
+  errorImg.value = true
 }
 
 // animation
@@ -16,6 +18,7 @@ const img = useTemplateRef('img')
 watch(
   () => props.path,
   (newVal) => {
+    errorImg.value = false
     imgSrc.value = newVal
     cancel()
     play()
@@ -91,7 +94,7 @@ const { play, cancel } = useAnimate(img, keyframes, {
 
 <template>
   <section class="featured-art">
-    <img class="" ref="img" :src="imgSrc" alt="" @error="handleError" />
+    <img :class="{ error: errorImg }" ref="img" :src="imgSrc" alt="" @error="handleError" />
   </section>
 </template>
 
@@ -112,5 +115,9 @@ const { play, cancel } = useAnimate(img, keyframes, {
   width: 100%;
 
   z-index: 0;
+}
+
+.featured-art img.error {
+  transform: scale(0.5);
 }
 </style>

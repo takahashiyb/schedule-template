@@ -6,8 +6,11 @@ const props = defineProps<{ path?: string }>()
 
 const imgSrc = ref(props.path)
 
+const imgError = ref<boolean>(true)
+
 function handleError() {
   imgSrc.value = '/assets/icons/PhaseConnect_Header_Logo.png'
+  imgError.value = true
 }
 
 // animation
@@ -17,6 +20,7 @@ watch(
   () => props.path,
   (newVal) => {
     imgSrc.value = newVal
+    imgError.value = false
     cancel()
     play()
   },
@@ -91,7 +95,7 @@ const { play, cancel } = useAnimate(img, keyframes, {
 
 <template>
   <section class="featured-art">
-    <img class="" ref="img" :src="imgSrc" alt="" @error="handleError" />
+    <img :class="{ error: imgError }" ref="img" :src="imgSrc" alt="" @error="handleError" />
   </section>
 </template>
 
@@ -103,9 +107,14 @@ const { play, cancel } = useAnimate(img, keyframes, {
 
 .featured-art img {
   object-fit: contain;
+  object-position: center center;
   height: 100%;
   width: 100%;
 
   z-index: 0;
+}
+
+.featured-art img.error {
+  width: 80%;
 }
 </style>
