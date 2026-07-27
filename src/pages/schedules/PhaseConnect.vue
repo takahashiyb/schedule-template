@@ -25,6 +25,11 @@ import PipkinPippaTalentClock from '@/components/talents/pipkin-pippa/TalentCloc
 // Header
 import PhaseConnectHeaderDisplay from '@/components/talents/phase-connect/HeaderDisplay.vue'
 import PipkinPippaHeaderDisplay from '@/components/talents/pipkin-pippa/HeaderDisplay.vue'
+// Logo as Component
+import PhaseConnectLogo from '@/components/talents/phase-connect/LogoComponent.vue'
+import PipkinPippaLogo from '@/components/talents/pipkin-pippa/LogoComponent.vue'
+
+// Rest day as component
 
 type Theme = 'phase-connect' | 'pipkin-pippa'
 
@@ -32,6 +37,7 @@ interface ThemeComponents {
   code: string
   name: string
   color: string
+  logo: Component
   days: Component
   featuredArt: Component
   midBorder: Component
@@ -44,6 +50,7 @@ const themes: Record<Theme, ThemeComponents> = {
     code: 'phase-connect',
     name: 'Phase Connect',
     color: 'hsl(0, 0%, 4%)',
+    logo: PhaseConnectLogo,
     days: PhaseConnectDays,
     featuredArt: PhaseConnectFeaturedArt,
     midBorder: PhaseConnectMidBorder,
@@ -54,6 +61,7 @@ const themes: Record<Theme, ThemeComponents> = {
     code: 'pipkin-pippa',
     name: 'Pipkin Pippa',
     color: 'hsl(25, 86%, 95%)',
+    logo: PipkinPippaLogo,
     days: PipkinPippaDays,
     featuredArt: PipkinPippaFeaturedArt,
     midBorder: PipkinPippaMidBorder,
@@ -163,7 +171,11 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="page" :class="{ medium: medium, large: large }">
-    <Component :is="themes[theme].header" @openSidebar="turnSidebarOn"></Component>
+    <Component
+      :is="themes[theme].header"
+      :logo="themes[theme].logo"
+      @openSidebar="turnSidebarOn"
+    ></Component>
 
     <Component
       :is="themes[theme].featuredArt"
@@ -195,21 +207,29 @@ onUnmounted(() => {
     >
       <button class="close-button" @click="turnSidebarOff">X</button>
 
-      <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
+      <Component :is="themes[theme].logo" />
 
       <TalentDropdown
         :talents="talents"
         v-model:current="talent"
+        :background="background"
         @closeSidebar="turnSidebarOff"
         @change="changeTheme"
       />
 
       <label
+        :style="{
+          '--text-color': pickTextColor(background),
+        }"
         ><input type="checkbox" v-model="customTheme" @change="changeTheme" />use special
         themes</label
       >
 
-      <label v-if="customTheme"
+      <label
+        v-if="customTheme"
+        :style="{
+          '--text-color': pickTextColor(background),
+        }"
         ><input type="checkbox" v-model="fixedTheme" @change="changeTheme" />use fixed themes</label
       >
 
@@ -221,7 +241,13 @@ onUnmounted(() => {
 
       <div></div>
 
-      <span class="timezone">{{ timezoneDisplay }} - {{ timezone }}</span>
+      <span
+        class="timezone"
+        :style="{
+          '--text-color': pickTextColor(background),
+        }"
+        >{{ timezoneDisplay }} - {{ timezone }}</span
+      >
     </div>
 
     <div class="sidebar-overlay" :class="{ open: isSidebarOpen }" @click="turnSidebarOff"></div>
@@ -405,8 +431,14 @@ onUnmounted(() => {
   flex: 1;
 }
 
+.sidebar label {
+  --text-color: (0, 0%, 100%) align-self: end;
+  color: hsl(var(--text-color));
+}
+
 .sidebar .timezone {
-  align-self: end;
+  --text-color: (0, 0%, 100%) align-self: end;
+  color: hsl(var(--text-color));
 }
 
 .sidebar-overlay {

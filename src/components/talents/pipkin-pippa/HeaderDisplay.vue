@@ -1,4 +1,10 @@
 <script setup lang="ts">
+import type { Component } from 'vue'
+
+const props = defineProps<{
+  logo: Component
+}>()
+
 const emit = defineEmits(['openSidebar'])
 
 function openSidebar() {
@@ -7,7 +13,7 @@ function openSidebar() {
 </script>
 <template>
   <header>
-    <img src="/public/assets/icons/pipkin-pippa/logo/png/logo.png" alt="" />
+    <component class="logo" :is="props.logo"></component>
     <h1>Schedule</h1>
     <button class="side-button" @click="openSidebar">|||</button>
   </header>
@@ -19,15 +25,19 @@ header {
   align-self: center;
 
   display: flex;
+  justify-content: end;
   align-items: center;
 
   border: 4px solid hsl(s.$hot-pink);
   background-color: hsl(s.$white);
   color: hsl(s.$hot-pink);
+  border-radius: 9em 0 0 9em;
+
+  margin-left: 16px;
+}
+.page.medium header {
   border-radius: 9em;
-
-  margin-right: 16px;
-
+  margin-inline: 16px;
   padding-inline: 32px;
 }
 
@@ -45,14 +55,16 @@ h1 {
   font-size: 3rem;
 }
 
-header img {
+header .logo {
+  display: none;
   max-height: 2rem;
 
   object-fit: contain;
   margin-right: auto;
 }
 
-.page.medium header img {
+.page.medium header .logo {
+  display: inline-block;
   max-height: 3rem;
 }
 

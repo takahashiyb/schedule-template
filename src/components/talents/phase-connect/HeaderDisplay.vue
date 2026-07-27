@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import type { Component } from 'vue'
+
+const props = defineProps<{
+  logo: Component
+}>()
 const emit = defineEmits(['openSidebar'])
 
 function openSidebar() {
@@ -7,7 +12,7 @@ function openSidebar() {
 </script>
 <template>
   <header>
-    <img src="/src/assets/icons/PhaseConnect_Header_Logo.png" alt="" />
+    <component class="logo" :is="props.logo"></component>
     <h1>Schedule</h1>
     <button class="side-button" @click="openSidebar">|||</button>
   </header>
@@ -18,6 +23,7 @@ header {
 
   display: flex;
   align-items: center;
+  justify-content: end;
 
   padding-inline: 16px;
 }
@@ -36,14 +42,16 @@ h1 {
   font-size: 3rem;
 }
 
-header img {
+header .logo {
+  display: none;
   max-height: 2rem;
 
   object-fit: contain;
   margin-right: auto;
 }
 
-.page.medium header img {
+.page.medium header .logo {
+  display: inline-block;
   max-height: 3rem;
 }
 
