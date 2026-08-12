@@ -181,18 +181,21 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="page" :class="{ medium: medium, large: large }">
+    <!-- Header -->
     <Component
       :is="themes[theme].header"
       :logo="themes[theme].logo"
       @openSidebar="turnSidebarOn"
     ></Component>
 
+    <!-- Featured Art -->
     <Component
       :is="themes[theme].featuredArt"
       class="featured-art"
       :path="`/assets/icons/${talentData?.id}/fullbody/resized.png`"
     ></Component>
 
+    <!-- Empty Selection -->
     <Component :is="themes[theme].emptySelection" v-if="!talent">
       <TalentDropdown
         :talents="talents"
@@ -202,6 +205,7 @@ onUnmounted(() => {
       />
     </Component>
 
+    <!-- Days -->
     <Component
       :is="themes[theme].days"
       class="days"
@@ -210,6 +214,7 @@ onUnmounted(() => {
       v-else
     />
 
+    <!-- Sidebar -->
     <Component
       :is="themes[theme].sidebar"
       :isSidebarOpen="isSidebarOpen"
@@ -258,12 +263,14 @@ onUnmounted(() => {
 
     <div class="sidebar-overlay" :class="{ open: isSidebarOpen }" @click="turnSidebarOff"></div>
 
+    <!-- Background Border -->
     <Component
       :is="themes[theme].midBorder"
       class="border"
       :style="`--border: ${talentData?.color3}`"
     ></Component>
 
+    <!-- Corner Crawler -->
     <div
       class="container__crawling-banner"
       :style="[
@@ -280,6 +287,7 @@ onUnmounted(() => {
       </div>
     </div>
 
+    <!-- Clock -->
     <Component
       :is="themes[theme].talentClock"
       :talentData="talentData"
