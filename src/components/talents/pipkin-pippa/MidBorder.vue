@@ -2,14 +2,10 @@
 
 <template>
   <div class="border" style="clip-path: url(#curved)">
-    <img
-      class="small"
-      src="/public/assets/icons/pipkin-pippa/inconspicuous/png/horizontal.png"
-      alt=""
-    />
+    <img class="small" src="/assets/icons/pipkin-pippa/inconspicuous/png/horizontal.png" alt="" />
     <img
       class="large"
-      src="/public/assets/icons/pipkin-pippa/inconspicuous-border/png/horizontal.png"
+      src="/assets/icons/pipkin-pippa/inconspicuous-border/png/horizontal.png"
       alt=""
     />
   </div>
