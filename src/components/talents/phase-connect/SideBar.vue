@@ -1,22 +1,13 @@
 <script setup lang="ts">
 import type { Component } from 'vue'
-import type { Talent } from '@/types/talent-data-supabase'
 
 import { toRefs } from 'vue'
-
-type Theme = 'phase-connect' | 'pipkin-pippa'
 
 const props = defineProps<{
   isSidebarOpen: boolean
   background: string
   logo: Component
-  talents: Talent[]
-  talent?: string
   customTheme: boolean
-  fixedTheme: boolean
-  theme: Theme
-  timezone: string
-  timezoneDisplay: string
 }>()
 
 const emit = defineEmits(['closeSidebar'])
