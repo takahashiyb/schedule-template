@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import type { Talent } from '@/types/talent-data-supabase'
-import { pickTextColor } from '@/utils/color'
 
 const props = defineProps<{ talents: Talent[]; current?: string; background?: string }>()
 
