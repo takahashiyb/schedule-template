@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue'
 import type { Talent } from '@/types/talent-data-supabase'
+import { pickTextColor } from '@/utils/color'
 
-const props = defineProps<{ talents: Talent[]; current?: string }>()
+const props = defineProps<{ talents: Talent[]; current?: string; background?: string }>()
 
 const { talents } = toRefs(props)
 
@@ -26,7 +27,6 @@ function getGens() {
 
 <template>
   <div>
-    <p>Select a talent</p>
     <select v-model="talent" @change="update">
       <optgroup v-for="gen in getGens()" :label="gen.name" :key="`optionGen-${gen.id}`">
         <option
@@ -44,5 +44,10 @@ function getGens() {
 <style scoped lang="scss">
 optgroup {
   text-transform: uppercase;
+}
+
+div p {
+  --text-color: (0, 0%, 100%);
+  color: hsl(var(--text-color));
 }
 </style>

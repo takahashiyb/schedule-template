@@ -28,8 +28,9 @@ import PipkinPippaHeaderDisplay from '@/components/talents/pipkin-pippa/HeaderDi
 // Logo as Component
 import PhaseConnectLogo from '@/components/talents/phase-connect/LogoComponent.vue'
 import PipkinPippaLogo from '@/components/talents/pipkin-pippa/LogoComponent.vue'
-
-// Rest day as component
+// Sidebar
+import PhaseConnectSideBar from '@/components/talents/phase-connect/SideBar.vue'
+import PipkinPippaSideBar from '@/components/talents/pipkin-pippa/SideBar.vue'
 
 type Theme = 'phase-connect' | 'pipkin-pippa'
 
@@ -43,6 +44,7 @@ interface ThemeComponents {
   midBorder: Component
   talentClock: Component
   header: Component
+  sidebar: Component
 }
 
 const themes: Record<Theme, ThemeComponents> = {
@@ -56,6 +58,7 @@ const themes: Record<Theme, ThemeComponents> = {
     midBorder: PhaseConnectMidBorder,
     talentClock: PhaseConnectTalentClock,
     header: PhaseConnectHeaderDisplay,
+    sidebar: PhaseConnectSideBar,
   },
   'pipkin-pippa': {
     code: 'pipkin-pippa',
@@ -67,6 +70,7 @@ const themes: Record<Theme, ThemeComponents> = {
     midBorder: PipkinPippaMidBorder,
     talentClock: PipkinPippaTalentClock,
     header: PipkinPippaHeaderDisplay,
+    sidebar: PipkinPippaSideBar,
   },
 }
 
@@ -104,7 +108,7 @@ const talentData = computed(() => {
   return talents.value.find((item) => item.id === talent.value)
 })
 
-const isSidebarOpen = ref<boolean>()
+const isSidebarOpen = ref<boolean>(false)
 
 function turnSidebarOn() {
   isSidebarOpen.value = true
@@ -184,6 +188,13 @@ onUnmounted(() => {
     ></Component>
 
     <div class="days empty" v-if="!talent">
+      <p
+        :style="{
+          '--text-color': themes[theme].color,
+        }"
+      >
+        Select a talent
+      </p>
       <TalentDropdown
         :talents="talents"
         v-model:current="talent"
@@ -200,55 +211,51 @@ onUnmounted(() => {
       v-else
     />
 
-    <div
-      class="sidebar"
-      :class="{ open: isSidebarOpen }"
-      :style="[`background-color: ${background}`]"
+    <component
+      :is="themes[theme].sidebar"
+      :isSidebarOpen="isSidebarOpen"
+      :background="background"
+      :logo="themes[theme].logo"
+      :talents="talents"
+      :talent="talent"
+      :customTheme="customTheme"
+      :fixedTheme="fixedTheme"
+      :theme="theme"
+      :timezone="timezone"
+      :timezoneDisplay="timezoneDisplay"
+      @closeSidebar="turnSidebarOff"
     >
-      <button class="close-button" @click="turnSidebarOff">X</button>
+      <template v-slot:dropdown>
+        <TalentDropdown
+          :talents="talents"
+          :talent="talent"
+          v-model:current="talent"
+          :background="background"
+          @closeSidebar="turnSidebarOff"
+          @change="changeTheme"
+        />
+      </template>
 
-      <Component :is="themes[theme].logo" />
+      <template v-slot:specialTheme>
+        <input type="checkbox" v-model="customTheme" @change="changeTheme" />
+      </template>
 
-      <TalentDropdown
-        :talents="talents"
-        v-model:current="talent"
-        :background="background"
-        @closeSidebar="turnSidebarOff"
-        @change="changeTheme"
-      />
+      <template v-slot:customTheme>
+        <input type="checkbox" v-model="fixedTheme" @change="changeTheme" />
+      </template>
 
-      <label
-        :style="{
-          '--text-color': pickTextColor(background),
-        }"
-        ><input type="checkbox" v-model="customTheme" @change="changeTheme" />use special
-        themes</label
-      >
+      <template v-slot:fixedTheme>
+        <select v-model="theme" v-if="customTheme && fixedTheme" @change="changeTheme">
+          <option v-for="value in themes" :value="value.code" :key="value.code">
+            {{ value.name }}
+          </option>
+        </select>
+      </template>
 
-      <label
-        v-if="customTheme"
-        :style="{
-          '--text-color': pickTextColor(background),
-        }"
-        ><input type="checkbox" v-model="fixedTheme" @change="changeTheme" />use fixed themes</label
-      >
-
-      <select v-model="theme" v-if="customTheme && fixedTheme" @change="changeTheme">
-        <option v-for="value in themes" :value="value.code" :key="value.code">
-          {{ value.name }}
-        </option>
-      </select>
-
-      <div></div>
-
-      <span
-        class="timezone"
-        :style="{
-          '--text-color': pickTextColor(background),
-        }"
-        >{{ timezoneDisplay }} - {{ timezone }}</span
-      >
-    </div>
+      <template v-slot:timezone>
+        <span class="timezone">{{ timezoneDisplay }} - {{ timezone }}</span>
+      </template>
+    </component>
 
     <div class="sidebar-overlay" :class="{ open: isSidebarOpen }" @click="turnSidebarOff"></div>
 
@@ -287,8 +294,6 @@ onUnmounted(() => {
 .page {
   --bg-color: 0, 0%, 100%;
   --border-color: 206, 8%, 15%;
-
-  color: white;
 
   position: relative;
 
@@ -361,98 +366,16 @@ onUnmounted(() => {
 }
 
 .days.empty {
+  --text-color: '0, 0%, 0%';
+
   justify-self: end;
 
   display: grid;
   align-items: center;
   align-content: start;
-  color: white;
+  color: hsl(var(--text-color));
 
   padding-right: 16px;
-}
-
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 3;
-
-  height: 100%;
-  width: 250px;
-  background-color: hsl(0, 0%, 4%);
-  transform: translateX(100%);
-
-  transition: 300ms transform;
-
-  padding: 20px;
-
-  box-shadow:
-    4px 0 0 white inset,
-    6px 0 0 hsl(206, 8%, 17%) inset,
-    10px 0 0 white inset,
-    12px 0 0 hsl(206, 8%, 17%) inset,
-    16px 0 0 white inset;
-}
-
-.page.medium .sidebar {
-  width: 400px;
-
-  padding-inline: 56px;
-}
-
-.sidebar.open {
-  transform: translateX(0);
-}
-
-.sidebar .close-button {
-  align-self: end;
-  background-color: white;
-  height: 40px;
-  width: 40px;
-
-  border: none;
-  color: black;
-  font-weight: 900;
-
-  cursor: pointer;
-}
-
-.sidebar select:hover,
-.sidebar option:hover {
-  cursor: pointer;
-}
-
-.sidebar :nth-last-child(2) {
-  flex: 1;
-}
-
-.sidebar label {
-  --text-color: (0, 0%, 100%) align-self: end;
-  color: hsl(var(--text-color));
-}
-
-.sidebar .timezone {
-  --text-color: (0, 0%, 100%) align-self: end;
-  color: hsl(var(--text-color));
-}
-
-.sidebar-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background-color: black;
-  opacity: 0.5;
-
-  display: none;
-}
-
-.sidebar-overlay.open {
-  display: inline-block;
 }
 
 .container__crawling-banner {
