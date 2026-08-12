@@ -142,7 +142,7 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
 
     <div class="no-schedule" v-else>
       <p>There are no scheduled streams.</p>
-      <p>Go to the sidebar to select another talent.</p>
+      <p>Find another rabbit hole in the sidebar.</p>
     </div>
 
     <div
@@ -314,9 +314,18 @@ function groupDataByDate(data: StreamWrapper[] | undefined, timezone: string) {
   display: grid;
   align-content: center;
   align-items: center;
+  justify-items: end;
   text-align: end;
+  gap: 1em;
 
   height: 100%;
-  color: white;
+}
+
+.no-schedule > * {
+  background-color: hsl(s.$violet);
+  color: hsl(s.$white);
+  border: hsl(s.$white) solid 4px;
+  padding: 1em;
+  border-radius: 9em;
 }
 </style>
