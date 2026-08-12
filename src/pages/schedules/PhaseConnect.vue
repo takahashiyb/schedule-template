@@ -31,6 +31,9 @@ import PipkinPippaLogo from '@/components/talents/pipkin-pippa/LogoComponent.vue
 // Sidebar
 import PhaseConnectSideBar from '@/components/talents/phase-connect/SideBar.vue'
 import PipkinPippaSideBar from '@/components/talents/pipkin-pippa/SideBar.vue'
+// Empty
+import PhaseConnectEmptySelection from '@/components/talents/phase-connect/EmptySelection.vue'
+import PipkinPippaEmptySelection from '@/components/talents/pipkin-pippa/EmptySelection.vue'
 
 type Theme = 'phase-connect' | 'pipkin-pippa'
 
@@ -45,6 +48,7 @@ interface ThemeComponents {
   talentClock: Component
   header: Component
   sidebar: Component
+  emptySelection: Component
 }
 
 const themes: Record<Theme, ThemeComponents> = {
@@ -59,6 +63,7 @@ const themes: Record<Theme, ThemeComponents> = {
     talentClock: PhaseConnectTalentClock,
     header: PhaseConnectHeaderDisplay,
     sidebar: PhaseConnectSideBar,
+    emptySelection: PhaseConnectEmptySelection,
   },
   'pipkin-pippa': {
     code: 'pipkin-pippa',
@@ -71,6 +76,7 @@ const themes: Record<Theme, ThemeComponents> = {
     talentClock: PipkinPippaTalentClock,
     header: PipkinPippaHeaderDisplay,
     sidebar: PipkinPippaSideBar,
+    emptySelection: PipkinPippaEmptySelection,
   },
 }
 
@@ -187,21 +193,14 @@ onUnmounted(() => {
       :path="`/assets/icons/${talentData?.id}/fullbody/resized.png`"
     ></Component>
 
-    <div class="days empty" v-if="!talent">
-      <p
-        :style="{
-          '--text-color': themes[theme].color,
-        }"
-      >
-        Select a talent
-      </p>
+    <Component :is="themes[theme].emptySelection" v-if="!talent">
       <TalentDropdown
         :talents="talents"
         v-model:current="talent"
         @closeSidebar="turnSidebarOff"
         @change="changeTheme"
       />
-    </div>
+    </Component>
 
     <Component
       :is="themes[theme].days"
@@ -211,7 +210,7 @@ onUnmounted(() => {
       v-else
     />
 
-    <component
+    <Component
       :is="themes[theme].sidebar"
       :isSidebarOpen="isSidebarOpen"
       :background="background"
@@ -255,7 +254,7 @@ onUnmounted(() => {
       <template v-slot:timezone>
         <span class="timezone">{{ timezoneDisplay }} - {{ timezone }}</span>
       </template>
-    </component>
+    </Component>
 
     <div class="sidebar-overlay" :class="{ open: isSidebarOpen }" @click="turnSidebarOff"></div>
 
@@ -363,19 +362,6 @@ onUnmounted(() => {
   order: 2;
   grid-column: 3/6;
   grid-row: 2;
-}
-
-.days.empty {
-  --text-color: '0, 0%, 0%';
-
-  justify-self: end;
-
-  display: grid;
-  align-items: center;
-  align-content: start;
-  color: hsl(var(--text-color));
-
-  padding-right: 16px;
 }
 
 .container__crawling-banner {
