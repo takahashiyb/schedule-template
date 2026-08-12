@@ -21,6 +21,8 @@ function openSidebar() {
 header {
   align-self: center;
 
+  color: white;
+
   display: flex;
   align-items: center;
   justify-content: end;
